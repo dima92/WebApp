@@ -5,12 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DAL_Core\Interfaces\" />
-    <Folder Include="DAL_Core\Repository\" />
-    <Folder Include="Entities\" />
-    <Folder Include="EF\" />
-    <Folder Include="GenericRepository\" />
-    <Folder Include="GenericRepositoryModel\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
   </ItemGroup>
 
 </Project>
