@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="DAL_Core\Interfaces\" />
+    <Folder Include="DAL_Core\Repository\" />
+    <Folder Include="Entities\" />
+    <Folder Include="EF\" />
+    <Folder Include="GenericRepository\" />
+    <Folder Include="GenericRepositoryModel\" />
+  </ItemGroup>
+
+</Project>
