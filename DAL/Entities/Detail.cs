@@ -6,22 +6,48 @@ namespace DAL.Entities
     public class Detail
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Введите номенклатурный код")]
+        [RegularExpression(@"[A-Z]{3}-\d{6}", ErrorMessage = "Номенклатурный код должен иметь вид:XXX-111111")]
         public string NomenclatureCode { get; set; }
+
         [Required]
         public string Name { get; set; }
-        public int Quantity { get; set; }
-        public bool SpecAccount { get; set; }
-        [Required]
-        public int StorekeeperId { get; set; } // внешний ключ
-        public Storekeeper Storekeeper { get; set; } // навигационное свойство
-        [Required]
+
+        [Required(ErrorMessage = "Введите количество деталей")]
+        [Range(0, int.MaxValue, ErrorMessage = "Недопустимое кол-во деталей")]
+        public int? Quantity { get; set; }
+
+        public bool? SpecAccount { get; set; }
+
+        [Required(ErrorMessage = "Выберите кладовщика")]
+
+        public virtual Storekeeper Storekeeper { get; set; }
+
+        [Required(ErrorMessage = "Выберите дату")]
+        [WeekendDate(ErrorMessage = "Дата не может быть выходным днем")]
         public DateTime Created { get; set; }
+
         public DateTime? DeleteDate { get; set; }
 
         public override string ToString()
         {
             return $" №{Id} от {Created:dd.MM.yyyy hh:mm:ss}";
+        }
+    }
+
+    public class WeekendDateAttribute : RequiredAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (base.IsValid(value))
+            {
+                DateTime date = (DateTime)value;
+                if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
+                    return true;
+                else return false;
+            }
+
+            return false;
         }
     }
 }

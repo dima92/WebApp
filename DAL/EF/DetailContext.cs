@@ -11,5 +11,8 @@ namespace DAL.EF
         public DetailContext(DbContextOptions<DetailContext> options) : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        }
     }
 }

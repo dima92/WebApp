@@ -12,7 +12,6 @@ namespace DAL.Entities
         public string Surname { get; set; }
         [Required]
         public string Patron { get; set; }
-        public List<Detail> Details { get; set; }
 
         public override string ToString()
         {
