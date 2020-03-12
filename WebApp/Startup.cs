@@ -1,9 +1,12 @@
+using DAL.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace WebApp
 {
@@ -21,6 +24,8 @@ namespace WebApp
         {
             services.AddControllersWithViews(options=> options.EnableEndpointRouting = false);
             services.AddCors();
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=detaildb;Trusted_Connection=True;";
+            services.AddDbContext<DetailContext>(options => options.UseSqlServer(connectionString));
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -29,6 +34,7 @@ namespace WebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [System.Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -41,7 +47,6 @@ namespace WebApp
             }
 
             app.UseStaticFiles();
-            app.UseHttpsRedirection();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -70,6 +75,7 @@ namespace WebApp
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
+                    spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
                 }
             });
         }

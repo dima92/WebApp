@@ -1,15 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BLL.ModelDto
+﻿namespace BLL.ModelDto
 {
     public class StorekeeperDto
     {
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
-        public string Surname { get; set; }
-        [Required]
-        public string Patron { get; set; }
+        public int SumKolDetail { get; set; }
+
+        public StorekeeperDto(int id, string name, int sumKolDetail)
+        {
+            Id = id;
+            Name = name;
+            SumKolDetail = sumKolDetail;
+        }
     }
 }

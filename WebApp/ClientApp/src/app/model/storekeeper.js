@@ -1,13 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var Storekeeper = /** @class */ (function () {
-    function Storekeeper(id, name, surname, patron) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.patron = patron;
+define(["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class Storekeeper {
+        constructor(id, name, quantity) {
+            this.id = id;
+            this.name = name;
+            this.quantity = quantity;
+        }
     }
-    return Storekeeper;
-}());
-exports.Storekeeper = Storekeeper;
+    exports.Storekeeper = Storekeeper;
+});
 //# sourceMappingURL=storekeeper.js.map

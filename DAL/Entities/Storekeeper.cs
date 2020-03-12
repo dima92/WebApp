@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DAL.Entities
 {
@@ -7,11 +6,7 @@ namespace DAL.Entities
     {
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Surname { get; set; }
-        [Required]
-        public string Patron { get; set; }
+        public string Name { get; set; }  
 
         public override string ToString()
         {

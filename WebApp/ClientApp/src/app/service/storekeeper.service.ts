@@ -1,44 +1,33 @@
-import { Injectable, Inject } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Storekeeper } from "../model/storekeeper";
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Storekeeper} from "../model/storekeeper";
 
 @Injectable()
 export class StorekeeperService {
 
-  url: string = "";
-  //private readonly url = "/api/storekeepers";
+  private readonly url = "/api/storekeepers";
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.url = baseUrl;
-  }
+    constructor(private http: HttpClient) {
+    }
 
-  getStorekeepers() {
-    return this.http.get(this.url + 'api/storekeepers')
-      .pipe(map(
-        response => {
-          return response;
-        }))
-  }
+    getStorekeepers() {
+        return this.http.get(this.url);
+    }
 
-  getStorekeeper(id: number) {
-    return this.http.get(this.url + '/' + id);
-  }
+    getStorekeeper(id: number) {
+        return this.http.get(this.url + '/' + id);
+    }
 
-  createStorekeeper(storekeeper: Storekeeper) {
-    return this.http.post(this.url, storekeeper);
-  }
-  updateStorekeeper(storekeeper: Storekeeper) {
+    createStorekeeper(storekeeper: Storekeeper) {
+      const myHeaders = new HttpHeaders().set("Content-Type", "application/json");
+      return this.http.post(this.url, JSON.stringify(storekeeper), { headers: myHeaders });
+    }
+    updateStorekeeper(storekeeper: Storekeeper) {
 
-    return this.http.put(this.url, storekeeper);
-  }
-  deleteStorekeeper(id: number) {
-    return this.http.delete(this.url + '/' + id);
-  }
-
-  errorHandler(error: Response) {
-    console.log(error);
-    return Observable.throw(error);
-  }
+      const myHeaders = new HttpHeaders().set("Content-Type", "application/json");
+      return this.http.put(this.url, JSON.stringify(storekeeper), { headers: myHeaders });
+    }
+    deleteStorekeeper(id: number) {
+        return this.http.delete(this.url + '/' + id);
+    }
 }

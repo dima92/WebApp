@@ -19,9 +19,8 @@ namespace DAL.Entities
 
         public bool? SpecAccount { get; set; }
 
-        [Required(ErrorMessage = "Выберите кладовщика")]
-
-        public virtual Storekeeper Storekeeper { get; set; }
+        public int StorekeeperId { get; set; }
+        public Storekeeper Storekeeper { get; set; }
 
         [Required(ErrorMessage = "Выберите дату")]
         [WeekendDate(ErrorMessage = "Дата не может быть выходным днем")]
