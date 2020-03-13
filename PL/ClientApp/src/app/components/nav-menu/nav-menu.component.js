@@ -5,16 +5,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component } from '@angular/core';
-let AppComponent = class AppComponent {
+let NavMenuComponent = class NavMenuComponent {
     constructor() {
-        this.title = 'app';
+        this.isExpanded = false;
+    }
+    collapse() {
+        this.isExpanded = false;
+    }
+    toggle() {
+        this.isExpanded = !this.isExpanded;
     }
 };
-AppComponent = __decorate([
+NavMenuComponent = __decorate([
     Component({
-        selector: 'app-root',
-        templateUrl: './app.component.html'
+        selector: 'app-nav-menu',
+        templateUrl: './nav-menu.component.html',
+        styleUrls: ['./nav-menu.component.css']
     })
-], AppComponent);
-export { AppComponent };
-//# sourceMappingURL=app.component.js.map
+], NavMenuComponent);
+export { NavMenuComponent };
+//# sourceMappingURL=nav-menu.component.js.map

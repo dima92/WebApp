@@ -11,10 +11,10 @@ namespace PL.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DetailController : ControllerBase
+    public class DetailsController : ControllerBase
     {
         private IBllFactory bllFactory;
-        public DetailController(IBllFactory bllFactory)
+        public DetailsController(IBllFactory bllFactory)
         {
             this.bllFactory = bllFactory ?? throw new ArgumentNullException(nameof(bllFactory));
         }

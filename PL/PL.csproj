@@ -7,6 +7,13 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\app.component.ts" />
     <None Remove="ClientApp\src\app\app.module.ts" />
+    <None Remove="ClientApp\src\app\components\detail.component.ts" />
+    <None Remove="ClientApp\src\app\components\nav-menu.component.ts" />
+    <None Remove="ClientApp\src\app\components\storekeeper.component.ts" />
+    <None Remove="ClientApp\src\app\models\detail.ts" />
+    <None Remove="ClientApp\src\app\models\storekeeper.ts" />
+    <None Remove="ClientApp\src\app\services\detail.service.ts" />
+    <None Remove="ClientApp\src\app\services\storekeeper.service.ts" />
     <None Remove="ClientApp\src\main.ts" />
     <None Remove="ClientApp\src\polyfills.ts" />
   </ItemGroup>
