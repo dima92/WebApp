@@ -42,9 +42,9 @@ import { StorekeeperService } from './services/storekeeper.service';
         MatPaginatorModule,
         ReactiveFormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'api/details', pathMatch: 'full' },
+            { path: '', redirectTo: 'Detail', pathMatch: 'full' },
             { path: 'api/storekeepers', component: StorekeeperComponent },
-            { path: 'api/details', component: DetailComponent }
+            { path: 'Detail', component: DetailComponent }
         ])
     ],
     providers: [StorekeeperService,

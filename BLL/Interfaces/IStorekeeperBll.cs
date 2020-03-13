@@ -1,4 +1,5 @@
-﻿using DAL.Entities;
+﻿using System.Collections.Generic;
+using DAL.Entities;
 using System.Linq;
 using BLL.ModelDto;
 
@@ -6,9 +7,9 @@ namespace BLL.Interfaces
 {
     public interface IStorekeeperBll
     {
-        IQueryable<Storekeeper> GetAll();
+        List<StorekeeperDto> GetAll();
         Storekeeper Get(int id);
         void Add(StorekeeperDto storekeeper);
-        void Delete(int storekeeperId);
+        bool Delete(int storekeeperId);
     }
 }

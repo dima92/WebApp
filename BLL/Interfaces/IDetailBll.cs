@@ -11,6 +11,6 @@ namespace BLL.Interfaces
         void Add(Detail detail);
         void Update(Detail detail);
         void MarkDeleted(int detailId);
-        void Delete(int detailId);
+        void Delete(int storekeeperId);
     }
 }

@@ -1,11 +1,8 @@
 ﻿using BLL.Infrastructure;
 using BLL.Interfaces;
 using BLL.ModelDto;
-using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PL.Controllers
 {
@@ -13,10 +10,10 @@ namespace PL.Controllers
     [Route("[controller]")]
     public class StorekeeperController : ControllerBase
     {
-        private IBllFactory bllFactory;
+        private readonly IBllFactory _bllFactory;
         public StorekeeperController(IBllFactory bllFactory)
         {
-            this.bllFactory = bllFactory ?? throw new ArgumentNullException(nameof(bllFactory));
+            this._bllFactory = bllFactory ?? throw new ArgumentNullException(nameof(bllFactory));
         }
 
         [HttpGet]
@@ -24,20 +21,8 @@ namespace PL.Controllers
         {
             try
             {
-                List<StorekeeperDto> result = new List<StorekeeperDto>();
-                List<Storekeeper> allStorekeepers = bllFactory.StorekeeperBll.GetAll().ToList();
-                foreach (var storekeeper in allStorekeepers)
-                {
-                    result.Add(new StorekeeperDto
-                    {
-                        Id = storekeeper.Id,
-                        Name = storekeeper.Name,
-                        SumKolDetail = storekeeper.SumKolDetail
-                    });
-                }
-
-                result = result.ToList();
-                return Ok(result);
+                var allStorekeepers = _bllFactory.StorekeeperBll.GetAll();
+                return Ok(allStorekeepers);
             }
             catch (ValidationException ex)
             {
@@ -49,23 +34,23 @@ namespace PL.Controllers
         [HttpGet]
         public IActionResult GetStorekeepers(int id)
         {
-            var result = bllFactory.StorekeeperBll.Get(id);
+            var result = _bllFactory.StorekeeperBll.Get(id);
             return Ok(result);
         }
 
         [HttpPost]
         public IActionResult Add(StorekeeperDto storekeeper)
         {
-            bllFactory.StorekeeperBll.Add(storekeeper);
+            _bllFactory.StorekeeperBll.Add(storekeeper);
             return Ok();
         }
 
         [HttpDelete]
         public IActionResult Delete(int storekeeperId)
         {
-           // Detail detail = bllFactory.DetailBll.Where(p => p.Quantity > 0).FirstOrDefault(x => x.StorekeeperId == Storekeeper.Id);
+            //.Where(p => p.Quantity > 0).FirstOrDefault(x => x.StorekeeperId == Storekeeper.Id);
 
-            bllFactory.StorekeeperBll.Delete(storekeeperId);
+            _bllFactory.StorekeeperBll.Delete(storekeeperId);
             return Ok();
         }
     }

@@ -1,3 +1,4 @@
+using DAL.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -5,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace HelloAngularApp
+namespace PL
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
-           // string connectionString = "Server=(localdb)\\mssqllocaldb;Database=detaildb;Trusted_Connection=True;";
-           // services.AddDbContext<DetailContext>(options => options.UseSqlServer(connectionString));
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=detaildb;Trusted_Connection=True;";
+            services.AddDbContext<DetailContext>(options => options.UseSqlServer(connectionString));
 
             services.AddControllers();
 

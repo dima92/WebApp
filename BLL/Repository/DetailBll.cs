@@ -47,12 +47,15 @@ namespace BLL.Repository
             Update(detail);
         }
 
-        public void Delete(int detailId)
+        public void Delete(int storekeeperId)
         {
-            var detail = _context.Details.FirstOrDefault(x => x.Id == detailId);
-            if (detail == null) return;
-            _context.Details.Remove(detail);
-            _context.SaveChanges();
+            //Detail storekeeperDetail = _context.Details.FirstOrDefault(x => x.StorekeeperId == storekeeperId);
+            //if (storekeeperDetail == null)
+            //{
+            //    _context.Details.Remove(_context.Storekeepers.Where(p=> p.));
+            //    _context.SaveChanges();
+            //}
+
         }
     }
 }
