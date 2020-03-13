@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using System.Linq;
+using BLL.ModelDto;
 
 namespace BLL.Interfaces
 {
@@ -7,7 +8,7 @@ namespace BLL.Interfaces
     {
         IQueryable<Storekeeper> GetAll();
         Storekeeper Get(int id);
-        void Add(Storekeeper storekeeper);
+        void Add(StorekeeperDto storekeeper);
         void Delete(int storekeeperId);
     }
 }
