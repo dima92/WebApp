@@ -61,9 +61,16 @@ namespace PL.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int storekeeperId)
         {
-            _bllFactory.StorekeeperBll.Delete(storekeeperId);
-            return Ok();
-            throw new ValidationException("Нельзя удалить кладовщика, за которым числятся детали");
+            try
+            {
+                _bllFactory.StorekeeperBll.Delete(storekeeperId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("warn", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
     }
 }

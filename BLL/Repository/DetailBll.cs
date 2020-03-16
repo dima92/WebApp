@@ -23,7 +23,7 @@ namespace BLL.Repository
         public List<DetailDto> GetAll()
         {
             List<DetailDto> result = new List<DetailDto>();
-            var allDetails = _context.Details.AsQueryable();
+            var allDetails = _context.Details.ToList();
             foreach (var detail in allDetails)
             {
                 result.Add(new DetailDto
@@ -35,7 +35,7 @@ namespace BLL.Repository
                     NomenclatureCode = detail.NomenclatureCode,
                     Quantity = detail.Quantity,
                     SpecAccount = detail.SpecAccount,
-                    NameStorekeeper = detail.Storekeeper.Name
+                    //NameStorekeeper = detail.Storekeeper.Name
                 });
             }
 

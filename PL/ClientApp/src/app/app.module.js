@@ -47,9 +47,9 @@ AppModule = __decorate([
             MatPaginatorModule,
             ReactiveFormsModule,
             RouterModule.forRoot([
-                { path: '', redirectTo: 'api/details', pathMatch: 'full' },
-                { path: 'api/storekeepers', component: StorekeeperComponent },
-                { path: 'api/details', component: DetailComponent }
+                { path: '', redirectTo: 'detail', pathMatch: 'full' },
+                { path: 'storekeeper', component: StorekeeperComponent },
+                { path: 'detail', component: DetailComponent }
             ])
         ],
         providers: [StorekeeperService,

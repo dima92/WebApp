@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using System;
+using BLL.Interfaces;
 using BLL.ModelDto;
 using DAL.DAL_Core.Repository;
 using DAL.EF;
@@ -6,6 +7,7 @@ using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using BLL.Infrastructure;
 
 namespace BLL.Repository
 {
@@ -59,21 +61,19 @@ namespace BLL.Repository
             return result;
         }
 
-        public Storekeeper Delete(int storekeeperId)
+        public void Delete(int storekeeperId)
         {
             Storekeeper storekeeperDetail = _context.Storekeepers.FirstOrDefault(x => x.Id == storekeeperId);
-            if (storekeeperDetail == null)
+
+            if (_context.Details.Any(a => a.StorekeeperId == storekeeperId))
             {
-                Storekeeper storekeeperObj = _context.Storekeepers.First(f => f.Id == storekeeperId);
-                _context.Storekeepers.Remove(storekeeperObj);
-                _context.SaveChanges();
+                throw new ValidationException("Нельзя удалить кладовщика, за которым числятся детали");
             }
             else
             {
-                Detail detail = _context.Details.Where(p => p.Quantity > 0).FirstOrDefault(x => x.StorekeeperId == storekeeperId);
+                _context.Storekeepers.Remove(storekeeperDetail ?? throw new InvalidOperationException());
+                _context.SaveChanges();
             }
-
-            return storekeeperDetail;
         }
     }
 }

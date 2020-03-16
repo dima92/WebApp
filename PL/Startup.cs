@@ -26,10 +26,10 @@ namespace PL
         public void ConfigureServices(IServiceCollection services)
         {
             // получаем строку подключения из файла конфигурации
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            // добавляем контекст DetailContext в качестве сервиса в приложение
-            services.AddDbContext<DetailContext>(options =>
-                options.UseSqlServer(connection));
+            //string connection = Configuration.GetConnectionString("DefaultConnection");
+            //// добавляем контекст DetailContext в качестве сервиса в приложение
+            //services.AddDbContext<DetailContext>(options =>
+            //    options.UseSqlServer(connection));
 
             services.AddScoped<IBllFactory, BllFactory>();
             services.AddControllersWithViews();
