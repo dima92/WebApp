@@ -9,9 +9,9 @@ import { Storekeeper } from "../../models/storekeeper";
 let StorekeeperComponent = class StorekeeperComponent {
     constructor(storekeeperService) {
         this.storekeeperService = storekeeperService;
+        this.storekeeper = new Storekeeper(0, "", 0);
         this.status = true;
         this.isNew = true;
-        this.storekeepers = new Array();
     }
     ngOnInit() {
         this.loadStorekeepers();
@@ -31,7 +31,7 @@ let StorekeeperComponent = class StorekeeperComponent {
         this.storekeepers.push(this.storekeeper);
         this.status = false;
     }
-    updateStrorekeeper(storekeeper) {
+    updateStorekeeper(storekeeper) {
         this.storekeeper = new Storekeeper(storekeeper.id, storekeeper.name, storekeeper.quantity);
         this.status = false;
         this.isNew = false;

@@ -10,13 +10,19 @@ import { Detail } from "../../models/detail";
 })
 export class DetailComponent implements OnInit {
 
-    detail: Detail = new Detail(1, '100', null, 1, null, null);
+    detail: Detail = new Detail(0, "", null, 0, null, null);
     details: Detail[];
+    status: boolean = true;
+    isNew: boolean = true;
 
     constructor(private detailService: DetailService) {
     }
 
     ngOnInit() {
+        this.loadDetails();
+    }
+
+    loadDetails() {
         this.detailService.getDetails().subscribe((data: Detail[]) => {
             this.details = data;
         },
@@ -26,6 +32,27 @@ export class DetailComponent implements OnInit {
                     alert(error[i]);
                 }
             });
+    }
 
+    createDetail() {
+        this.detail = new Detail(0, "", null, 0, null, null);
+        this.details.push(this.detail);
+        this.status = false;
+    }
+
+    updateDetail(detail: Detail) {
+        this.detail = new Detail(detail.id, detail.nomenclatureCode, detail.name, detail.quantity, detail.createDate, detail.deleteDate);
+        this.status = false;
+        this.isNew = false;
+    }
+
+    deleteDetail(detail: Detail) {
+        this.detailService.deleteDetail(detail.id).subscribe(data => {
+            this.loadDetails();
+        });
+    }
+    cancel() {
+        this.status = true;
+        this.isNew = true;
     }
 }

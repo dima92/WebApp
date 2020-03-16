@@ -5,16 +5,12 @@ namespace DAL.EF
 {
     public class DetailContext : DbContext
     {
-       
+        public DbSet<Detail> Details { get; set; }
+        public DbSet<Storekeeper> Storekeepers { get; set; }
 
         public DetailContext(DbContextOptions<DetailContext> options) : base(options)
         {
-            Database.EnsureCreated();
-        }
-        public DbSet<Detail> Details { get; set; }
-        public DbSet<Storekeeper> Storekeepers { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+           //  Database.EnsureCreated();
         }
     }
 }

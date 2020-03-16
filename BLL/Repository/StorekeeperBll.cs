@@ -1,22 +1,29 @@
-﻿using System.Collections.Generic;
-using BLL.Interfaces;
+﻿using BLL.Interfaces;
+using BLL.ModelDto;
+using DAL.DAL_Core.Repository;
 using DAL.EF;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using BLL.ModelDto;
 
 namespace BLL.Repository
 {
     public class StorekeeperBll : IStorekeeperBll
     {
         private readonly DetailContext _context = new DetailContext(new DbContextOptions<DetailContext>());
+        private readonly DalFactory _dalFactory;
+
+        public StorekeeperBll(DalFactory dalFactory)
+        {
+            _dalFactory = dalFactory;
+        }
+
         public List<StorekeeperDto> GetAll()
         {
             List<StorekeeperDto> result = new List<StorekeeperDto>();
-            var allstorekeepers = _context.Storekeepers.AsQueryable();
-            foreach (var storekeeper in allstorekeepers)
+            var allStorekeepers = _context.Storekeepers.AsQueryable();
+            foreach (var storekeeper in allStorekeepers)
             {
                 result.Add(new StorekeeperDto
                 {
@@ -32,37 +39,41 @@ namespace BLL.Repository
 
         public Storekeeper Get(int id)
         {
-            return _context.Storekeepers.FirstOrDefault(x => x.Id == id);
+            return _dalFactory.StorekeeperDal.GetById(id);
         }
 
-        public void Add(StorekeeperDto storekeeper)
+        public List<StorekeeperDto> Add(StorekeeperDto storekeeper)
         {
-            throw new System.NotImplementedException();
+            List<StorekeeperDto> result = new List<StorekeeperDto>();
+            var stock = _context.Storekeepers.ToList();
+            foreach (var item in stock)
+            {
+                result.Add(new StorekeeperDto
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    SumKolDetail = item.SumKolDetail
+                });
+            }
+
+            return result;
         }
 
-        public void Add(Storekeeper storekeeper)
+        public Storekeeper Delete(int storekeeperId)
         {
-            _context.Storekeepers.Add(storekeeper);
-            _context.SaveChanges();
-        }
-
-        public bool Delete(int storekeeperId)
-        {
-
-            Detail storekeeperDetail = _context.Details.FirstOrDefault(x => x.StorekeeperId == storekeeperId);
-            //если за кладовщиком не числятся детали
+            Storekeeper storekeeperDetail = _context.Storekeepers.FirstOrDefault(x => x.Id == storekeeperId);
             if (storekeeperDetail == null)
             {
-                Storekeeper storerkeperObj = _context.Storekeepers.First(f => f.Id == storekeeperId);
-                _context.Storekeepers.Remove(storerkeperObj);
+                Storekeeper storekeeperObj = _context.Storekeepers.First(f => f.Id == storekeeperId);
+                _context.Storekeepers.Remove(storekeeperObj);
                 _context.SaveChanges();
             }
             else
-            { // за кладовщиком числется детали
-
+            {
+                Detail detail = _context.Details.Where(p => p.Quantity > 0).FirstOrDefault(x => x.StorekeeperId == storekeeperId);
             }
 
-            return false;
+            return storekeeperDetail;
         }
     }
 }

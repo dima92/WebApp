@@ -5,7 +5,7 @@ import { Detail } from '../models/detail';
 @Injectable()
 export class DetailService {
 
-    private url = "/Detail";
+    private url = "/api/details";
 
     constructor(private http: HttpClient) {
     }

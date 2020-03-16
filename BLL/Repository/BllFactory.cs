@@ -14,7 +14,7 @@ namespace BLL.Repository
             _dalFactory = new DalFactory(new DbFactory());
         }
 
-        public IStorekeeperBll StorekeeperBll => _storekeeperBll ??= new StorekeeperBll();
-        public IDetailBll DetailBll => _detailBll ??= new DetailBll();
+        public IStorekeeperBll StorekeeperBll => _storekeeperBll ?? (_storekeeperBll = new StorekeeperBll(_dalFactory));
+        public IDetailBll DetailBll => _detailBll ?? (_detailBll = new DetailBll(_dalFactory));
     }
 }

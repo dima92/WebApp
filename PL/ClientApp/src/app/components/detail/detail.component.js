@@ -9,9 +9,14 @@ import { Detail } from "../../models/detail";
 let DetailComponent = class DetailComponent {
     constructor(detailService) {
         this.detailService = detailService;
-        this.detail = new Detail(1, '100', null, 1, null, null);
+        this.detail = new Detail(0, "", null, 0, null, null);
+        this.status = true;
+        this.isNew = true;
     }
     ngOnInit() {
+        this.loadDetails();
+    }
+    loadDetails() {
         this.detailService.getDetails().subscribe((data) => {
             this.details = data;
         }, error => {
@@ -19,6 +24,25 @@ let DetailComponent = class DetailComponent {
                 alert(error[i]);
             }
         });
+    }
+    createDetail() {
+        this.detail = new Detail(0, "", null, 0, null, null);
+        this.details.push(this.detail);
+        this.status = false;
+    }
+    updateDetail(detail) {
+        this.detail = new Detail(detail.id, detail.nomenclatureCode, detail.name, detail.quantity, detail.createDate, detail.deleteDate);
+        this.status = false;
+        this.isNew = false;
+    }
+    deleteDetail(detail) {
+        this.detailService.deleteDetail(detail.id).subscribe(data => {
+            this.loadDetails();
+        });
+    }
+    cancel() {
+        this.status = true;
+        this.isNew = true;
     }
 };
 DetailComponent = __decorate([

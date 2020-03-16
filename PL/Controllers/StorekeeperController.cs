@@ -1,4 +1,5 @@
-﻿using BLL.Infrastructure;
+﻿using AutoMapper;
+using BLL.Infrastructure;
 using BLL.Interfaces;
 using BLL.ModelDto;
 using Microsoft.AspNetCore.Mvc;
@@ -7,13 +8,15 @@ using System;
 namespace PL.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class StorekeeperController : ControllerBase
+    [Route("api/storekeepers")]
+    public class StorekeeperController : Controller
     {
         private readonly IBllFactory _bllFactory;
-        public StorekeeperController(IBllFactory bllFactory)
+        private readonly IMapper _mapper;
+        public StorekeeperController(IBllFactory bllFactory, IMapper mapper)
         {
-            this._bllFactory = bllFactory ?? throw new ArgumentNullException(nameof(bllFactory));
+            _bllFactory = bllFactory ?? throw new ArgumentNullException(nameof(bllFactory));
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,6 +26,7 @@ namespace PL.Controllers
             {
                 var allStorekeepers = _bllFactory.StorekeeperBll.GetAll();
                 return Ok(allStorekeepers);
+
             }
             catch (ValidationException ex)
             {
@@ -31,7 +35,7 @@ namespace PL.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetStorekeepers(int id)
         {
             var result = _bllFactory.StorekeeperBll.Get(id);
@@ -41,17 +45,25 @@ namespace PL.Controllers
         [HttpPost]
         public IActionResult Add(StorekeeperDto storekeeper)
         {
-            _bllFactory.StorekeeperBll.Add(storekeeper);
-            return Ok();
+            try
+            {
+                var model = _mapper.Map<StorekeeperDto>(storekeeper);
+                _bllFactory.StorekeeperBll.Add(model);
+                return Ok(model);
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError("error", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int storekeeperId)
         {
-            //.Where(p => p.Quantity > 0).FirstOrDefault(x => x.StorekeeperId == Storekeeper.Id);
-
             _bllFactory.StorekeeperBll.Delete(storekeeperId);
             return Ok();
+            throw new ValidationException("Нельзя удалить кладовщика, за которым числятся детали");
         }
     }
 }

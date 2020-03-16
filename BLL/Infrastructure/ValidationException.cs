@@ -10,5 +10,9 @@ namespace BLL.Infrastructure
         {
             Property = prop;
         }
+
+        public ValidationException(string message) : base(message)
+        {
+        }
     }
 }

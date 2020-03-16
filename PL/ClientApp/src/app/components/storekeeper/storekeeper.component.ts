@@ -8,20 +8,19 @@ import { Storekeeper } from "../../models/storekeeper";
 })
 export class StorekeeperComponent implements OnInit {
 
-    storekeeper: Storekeeper;// = new Storekeeper(0, null, 0);
-    storekeepers: Array<Storekeeper>;
+    storekeeper: Storekeeper = new Storekeeper(0, "", 0);
+    storekeepers: Storekeeper[];
     status: boolean = true;
     isNew: boolean = true;
 
     constructor(private storekeeperService: StorekeeperService) {
-        this.storekeepers = new Array<Storekeeper>();
     }
 
     ngOnInit() {
         this.loadStorekeepers();
     }
 
-    private loadStorekeepers() {
+    loadStorekeepers() {
         this.storekeeperService.getStorekeepers().subscribe((data: Storekeeper[]) => {
             this.storekeepers = data;
         });
@@ -38,7 +37,7 @@ export class StorekeeperComponent implements OnInit {
         this.status = false;
     }
 
-    updateStrorekeeper(storekeeper: Storekeeper) {
+    updateStorekeeper(storekeeper: Storekeeper) {
         this.storekeeper = new Storekeeper(storekeeper.id, storekeeper.name, storekeeper.quantity);
         this.status = false;
         this.isNew = false;

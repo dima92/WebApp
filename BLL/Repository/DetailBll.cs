@@ -1,8 +1,11 @@
 ﻿using BLL.Interfaces;
+using BLL.ModelDto;
+using DAL.DAL_Core.Repository;
 using DAL.EF;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BLL.Repository
@@ -10,15 +13,38 @@ namespace BLL.Repository
     public class DetailBll : IDetailBll
     {
         private readonly DetailContext _context = new DetailContext(new DbContextOptions<DetailContext>());
+        private DalFactory dalFactory;
 
-        public IQueryable<Detail> GetAll()
+        public DetailBll(DalFactory dalFactory)
         {
-            return _context.Details.AsQueryable();
+            this.dalFactory = dalFactory;
+        }
+
+        public List<DetailDto> GetAll()
+        {
+            List<DetailDto> result = new List<DetailDto>();
+            var allDetails = _context.Details.AsQueryable();
+            foreach (var detail in allDetails)
+            {
+                result.Add(new DetailDto
+                {
+                    Id = detail.Id,
+                    Created = detail.Created,
+                    DeleteDate = detail.DeleteDate,
+                    Name = detail.Name,
+                    NomenclatureCode = detail.NomenclatureCode,
+                    Quantity = detail.Quantity,
+                    SpecAccount = detail.SpecAccount,
+                    NameStorekeeper = detail.Storekeeper.Name
+                });
+            }
+
+            return result;
         }
 
         public Detail GetById(int detailId)
         {
-            return _context.Details.FirstOrDefault(x => x.Id == detailId);
+            return dalFactory.DetailDal.GetById(detailId);
         }
 
         public IQueryable<Detail> GetByStorekeeperId(int storekeeperId)
@@ -26,16 +52,31 @@ namespace BLL.Repository
             return _context.Details.Where(x => x.Id == storekeeperId);
         }
 
-        public void Add(Detail detail)
+        public List<DetailDto> Add(DetailDto detail)
         {
-            _context.Details.Add(detail);
-            _context.SaveChanges();
+            List<DetailDto> result = new List<DetailDto>();
+            var det = _context.Details.ToList();
+            foreach (var item in det)
+            {
+                result.Add(new DetailDto
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Quantity = item.Quantity,
+                    NomenclatureCode = item.NomenclatureCode,
+                    SpecAccount = item.SpecAccount,
+                    NameStorekeeper = item.Storekeeper.Name,
+                    Created = item.Created,
+                    DeleteDate = item.DeleteDate
+                });
+            }
+
+            return result;
         }
 
-        public void Update(Detail detail)
+        public void Update( Detail detail)
         {
-            _context.Entry(detail).State = EntityState.Modified;
-            _context.SaveChanges();
+            _context.Details.Update(detail);
         }
 
         public void MarkDeleted(int detailId)
@@ -44,18 +85,13 @@ namespace BLL.Repository
             if (detail == null) return;
             detail.DeleteDate = DateTime.Now;
             detail.Quantity = 0;
-            Update(detail);
         }
 
-        public void Delete(int storekeeperId)
+        public void Delete(int detailId)
         {
-            //Detail storekeeperDetail = _context.Details.FirstOrDefault(x => x.StorekeeperId == storekeeperId);
-            //if (storekeeperDetail == null)
-            //{
-            //    _context.Details.Remove(_context.Storekeepers.Where(p=> p.));
-            //    _context.SaveChanges();
-            //}
-
+            var detail = _context.Details.FirstOrDefault(x => x.Id == detailId);
+            _context.Remove(detail);
+            _context.SaveChanges();
         }
     }
 }

@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 let DetailService = class DetailService {
     constructor(http) {
         this.http = http;
-        this.url = "/Detail";
+        this.url = "/api/details";
     }
     getDetails() {
         return this.http.get(this.url);
