@@ -1,6 +1,7 @@
-﻿<div>
-    <form ng-submit="addDetail(detail)">
-        <h3>Детали</h3>
+﻿<div *ngIf="status;else unset">
+    <h3>Детали</h3>
+    <div>
+        <input type="button" value="Добавить" class="btn btn-success" (click)="add()" />
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -10,17 +11,92 @@
                     <td>Особоучитываемая</td>
                     <td>Дата создания</td>
                     <td>Дата удаления</td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 120px !important;">
+                            <input matInput placeholder="фильтр по номенклатуре" [(ngModel)]="filter.nomenclatureCode" [ngModelOptions]="{standalone: true}" (keyup)="filterForm()">
+                        </mat-form-field>
+                    </td>
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let detail of details">
                     <td>{{detail.nomenclatureCode}}</td>
                     <td>{{detail.name}}</td>
                     <td>{{detail.quantity}}</td>
-                    <td>{{detail.specAccount}}</td>
+                    <td>{{detail.specAccount ? 'выбрано' : 'свободно'}}</td>
                     <td>{{detail.createDate | date:'dd.MM.yyyy'}}</td>
                     <td>{{detail.deleteDate | date:'dd.MM.yyyy'}}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="edit(detail)">Изменить</button>
+                        <button class="btn btn-sm btn-danger" (click)="delete(detail.id)" style="margin-left:20px;">Удалить</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-    </form>
+    </div>
 </div>
+<ng-template #unset>
+    <div>
+        <h3>{{isNew ? 'Добавление детали' : 'Редактирование детали'}}</h3>
+        <div align="center" style="width: 100%">
+            <div align="left" style="width: 50%">
+                <form method="get" name="addEditForm">
+                    <div>
+                        <mat-checkbox [(ngModel)]="obj.specAccount" [ngModelOptions]="{standalone: true}">Особоучитываемая</mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" placeholder="Дата начала" [(ngModel)]="obj.createDate" [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker2" placeholder="Дата окончания" [(ngModel)]="obj.deleteDate" [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Детали</mat-label>
+                            <select matNativeControl required [(ngModel)]="obj.detailId" [ngModelOptions]="{standalone: true}">
+                                <option label="-- Выберите деталь --"></option>
+                                <option *ngFor="let detail of details" [value]="detail.id">{{detail.name}}</option>
+                            </select>
+                        </mat-form-field>
+
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Кладовщики</mat-label>
+                            <select matNativeControl required [(ngModel)]="obj.storekeeperId" [ngModelOptions]="{standalone: true}">
+                                <option label="-- Выберите кладовщика --"></option>
+                                <option *ngFor="let storekeeper of storekeeeprs" [value]="storekeeper.id">{{storekeeper.name}}</option>
+                            </select>
+                        </mat-form-field>
+
+                    </div>
+                    <div>
+                        <mat-form-field class="example-full-width">
+                            <input matInput min=0 max=20 value=0 placeholder="Кол-во" [(ngModel)]="obj.quantity" [ngModelOptions]="{standalone: true}" />
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="isNew;else unset">
+                        <button mat-button mat-raised-button color="primary" (click)="createDetail(Data)">Добавить</button>
+                        <button mat-button mat-raised-button color="warn" (click)="cancel()" style="margin-left:20px">Отмена</button>
+                    </div>
+                    <ng-template #unset>
+                        <div>
+                            <button mat-button mat-raised-button color="primary" (click)="save(detail)">Сохранить</button>
+                            <button mat-button mat-raised-button color="warn" (click)="cancel()" style="margin-left:20px">Отмена</button>
+                        </div>
+                    </ng-template>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>

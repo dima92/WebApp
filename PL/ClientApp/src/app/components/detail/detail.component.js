@@ -9,40 +9,62 @@ import { Detail } from "../../models/detail";
 let DetailComponent = class DetailComponent {
     constructor(detailService) {
         this.detailService = detailService;
-        this.detail = new Detail(0, "", null, 0, null, null);
+        this.detail = new Detail();
         this.status = true;
         this.isNew = true;
+        this.Obj = {};
+        this.filter = {};
     }
     ngOnInit() {
         this.loadDetails();
     }
     loadDetails() {
-        this.detailService.getDetails().subscribe((data) => {
+        this.detailService.getDetails(this.filter).subscribe((data) => {
             this.details = data;
         }, error => {
-            for (let i = 0; i < error.length; i++) {
+            for (var i = 0; i < error.length; i++) {
                 alert(error[i]);
             }
         });
     }
-    createDetail() {
-        this.detail = new Detail(0, "", null, 0, null, null);
-        this.details.push(this.detail);
-        this.status = false;
+    filterForm() {
+        this.loadDetails();
     }
-    updateDetail(detail) {
-        this.detail = new Detail(detail.id, detail.nomenclatureCode, detail.name, detail.quantity, detail.createDate, detail.deleteDate);
+    edit(detail) {
         this.status = false;
         this.isNew = false;
+        this.Obj = detail;
     }
-    deleteDetail(detail) {
-        this.detailService.deleteDetail(detail.id).subscribe(data => {
+    createDetail(Data) {
+        this.detailService.createDetail(Data).subscribe((data) => {
             this.loadDetails();
+            this.status = true;
         });
+    }
+    deleteDetail(id) {
+        this.detailService.deleteDetail(id).subscribe(data => {
+            this.loadDetails();
+        }),
+            error => {
+                for (var i = 0; i < error.length; i++) {
+                    alert(error[i]);
+                }
+            };
     }
     cancel() {
         this.status = true;
         this.isNew = true;
+    }
+    save(detail) {
+        debugger;
+        this.detailService.updateDetail(detail).subscribe((data) => {
+            this.loadDetails();
+            this.status = true;
+        }, error => {
+            for (var i = 0; i < error.length; i++) {
+                alert(error[i]);
+            }
+        });
     }
 };
 DetailComponent = __decorate([

@@ -10,8 +10,9 @@ let DetailService = class DetailService {
         this.http = http;
         this.url = "/api/details";
     }
-    getDetails() {
-        return this.http.get(this.url);
+    getDetails(filter) {
+        let param = this.url + "?nomenclatureCode" + (filter.nomenclatureCode == undefined ? '' : filter.nomenclatureCode);
+        return this.http.get(param);
     }
     getDetail(id) {
         return this.http.get(this.url + '/' + id);

@@ -10,8 +10,9 @@ export class StorekeeperService {
     constructor(private http: HttpClient) {
     }
 
-    getStorekeepers() {
-        return this.http.get(this.url);
+    getStorekeepers(filter: any) {
+        let param = this.url + "?name=" + (filter.name == undefined ? '' : filter.name);
+        return this.http.get(param);
     }
 
     getStorekeeper(id: number) {
@@ -23,7 +24,7 @@ export class StorekeeperService {
     }
 
     updateStorekeeper(storekeeper: Storekeeper) {
-        return this.http.put(this.url + '/' + storekeeper.id, storekeeper);
+        return this.http.put(this.url, storekeeper);
     }
 
     deleteStorekeeper(id: number) {

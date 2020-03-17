@@ -9,41 +9,62 @@ import { Storekeeper } from "../../models/storekeeper";
 let StorekeeperComponent = class StorekeeperComponent {
     constructor(storekeeperService) {
         this.storekeeperService = storekeeperService;
-        this.storekeeper = new Storekeeper(0, "", 0);
+        this.storekeeper = new Storekeeper();
         this.status = true;
         this.isNew = true;
+        this.Obj = {};
+        this.filter = {};
     }
     ngOnInit() {
         this.loadStorekeepers();
     }
     loadStorekeepers() {
-        this.storekeeperService.getStorekeepers().subscribe((data) => {
+        this.storekeeperService.getStorekeepers(this.filter).subscribe((data) => {
             this.storekeepers = data;
-        });
-        error => {
-            for (let i = 0; i < error.length; i++) {
+        }, error => {
+            for (var i = 0; i < error.length; i++) {
                 alert(error[i]);
             }
-        };
+        });
     }
-    createStorekeeper() {
-        this.storekeeper = new Storekeeper(0, "", 0);
-        this.storekeepers.push(this.storekeeper);
-        this.status = false;
+    filterForm() {
+        this.loadStorekeepers();
     }
-    updateStorekeeper(storekeeper) {
-        this.storekeeper = new Storekeeper(storekeeper.id, storekeeper.name, storekeeper.quantity);
+    edit(storekeeper) {
         this.status = false;
         this.isNew = false;
+        this.Obj = storekeeper;
     }
-    deleteStorekeeper(storekeeper) {
-        this.storekeeperService.deleteStorekeeper(storekeeper.id).subscribe(data => {
+    createStorekeeper(Data) {
+        this.storekeeperService.createStorekeeper(Data).subscribe((data) => {
             this.loadStorekeepers();
+            this.status = true;
         });
+    }
+    deleteStorekeeper(id) {
+        this.storekeeperService.deleteStorekeeper(id).subscribe(data => {
+            this.loadStorekeepers();
+        }),
+            error => {
+                for (var i = 0; i < error.length; i++) {
+                    alert(error[i]);
+                }
+            };
     }
     cancel() {
         this.status = true;
         this.isNew = true;
+    }
+    save(storekeeper) {
+        debugger;
+        this.storekeeperService.updateStorekeeper(storekeeper).subscribe((data) => {
+            this.loadStorekeepers();
+            this.status = true;
+        }, error => {
+            for (var i = 0; i < error.length; i++) {
+                alert(error[i]);
+            }
+        });
     }
 };
 StorekeeperComponent = __decorate([

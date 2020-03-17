@@ -10,8 +10,9 @@ let StorekeeperService = class StorekeeperService {
         this.http = http;
         this.url = "/api/storekeepers";
     }
-    getStorekeepers() {
-        return this.http.get(this.url);
+    getStorekeepers(filter) {
+        let param = this.url + "?name=" + (filter.name == undefined ? '' : filter.name);
+        return this.http.get(param);
     }
     getStorekeeper(id) {
         return this.http.get(this.url + '/' + id);
@@ -20,7 +21,7 @@ let StorekeeperService = class StorekeeperService {
         return this.http.post(this.url, storekeeper);
     }
     updateStorekeeper(storekeeper) {
-        return this.http.put(this.url + '/' + storekeeper.id, storekeeper);
+        return this.http.put(this.url, storekeeper);
     }
     deleteStorekeeper(id) {
         return this.http.delete(this.url + '/' + id);

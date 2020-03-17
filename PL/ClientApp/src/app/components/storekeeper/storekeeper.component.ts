@@ -8,10 +8,12 @@ import { Storekeeper } from "../../models/storekeeper";
 })
 export class StorekeeperComponent implements OnInit {
 
-    storekeeper: Storekeeper = new Storekeeper(0, "", 0);
+    storekeeper: Storekeeper = new Storekeeper();
     storekeepers: Storekeeper[];
     status: boolean = true;
     isNew: boolean = true;
+    Obj: {} = {};
+    filter: {} = {};
 
     constructor(private storekeeperService: StorekeeperService) {
     }
@@ -21,36 +23,61 @@ export class StorekeeperComponent implements OnInit {
     }
 
     loadStorekeepers() {
-        this.storekeeperService.getStorekeepers().subscribe((data: Storekeeper[]) => {
+        this.storekeeperService.getStorekeepers(this.filter).subscribe((data: Storekeeper[]) => {
             this.storekeepers = data;
-        });
-        error => {
-            for (let i = 0; i < error.length; i++) {
-                alert(error[i]);
-            }
-        }
+        },
+            error => {
+                for (var i = 0; i < error.length; i++) {
+                    alert(error[i]);
+                }
+            });
     }
 
-    createStorekeeper() {
-        this.storekeeper = new Storekeeper(0, "", 0);
-        this.storekeepers.push(this.storekeeper);
-        this.status = false;
+    filterForm() {
+        this.loadStorekeepers();
     }
 
-    updateStorekeeper(storekeeper: Storekeeper) {
-        this.storekeeper = new Storekeeper(storekeeper.id, storekeeper.name, storekeeper.quantity);
+    edit(storekeeper) {
         this.status = false;
         this.isNew = false;
+        this.Obj = storekeeper;
+
     }
 
-    deleteStorekeeper(storekeeper: Storekeeper) {
-        this.storekeeperService.deleteStorekeeper(storekeeper.id).subscribe(data => {
+    createStorekeeper(Data) {
+        this.storekeeperService.createStorekeeper(Data).subscribe((data: Storekeeper) => {
             this.loadStorekeepers();
+            this.status = true;
         });
     }
+
+
+    deleteStorekeeper(id) {
+        this.storekeeperService.deleteStorekeeper(id).subscribe(data => {
+            this.loadStorekeepers();
+        }),
+            error => {
+                for (var i = 0; i < error.length; i++) {
+                    alert(error[i]);
+                }
+            };
+    }
+
     cancel() {
         this.status = true;
         this.isNew = true;
     }
 
+    save(storekeeper) {
+        debugger;
+        this.storekeeperService.updateStorekeeper(storekeeper).subscribe((data) => {
+            this.loadStorekeepers();
+            this.status = true;
+        },
+            error => {
+                for (var i = 0; i < error.length; i++) {
+                    alert(error[i]);
+                }
+            });
+    }
 }

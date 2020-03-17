@@ -10,8 +10,9 @@ export class DetailService {
     constructor(private http: HttpClient) {
     }
 
-    getDetails() {
-        return this.http.get(this.url);
+    getDetails(filter: any) {
+        let param = this.url + "?nomenclatureCode" + (filter.nomenclatureCode == undefined ? '' : filter.nomenclatureCode);
+        return this.http.get(param);
     }
 
     getDetail(id: number) {

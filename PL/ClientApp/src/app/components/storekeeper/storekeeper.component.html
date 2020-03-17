@@ -1,19 +1,26 @@
-﻿<!--<div * ngIf="status; else unset">-->
-<div>
+﻿<div *ngIf="status;else unset">
     <h3>Кладовщики</h3>
-    <form ng-submit="addStorekeeper(storekeeper)">
+    <div>
+        <input type="button" value="Добавить" class="btn btn-success" (click)="add()" />
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <td>ФИО</td>
+                    <td>Кладовщик</td>
                     <td>Кол-во деталей</td>
-                    <td>Удалить</td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 120px !important;">
+                            <input matInput placeholder="фильтр по кладовщику" [(ngModel)]="filter.name" [ngModelOptions]="{standalone: true}" (keyup)="filterForm()">
+                        </mat-form-field>
+                    </td>
+                    <td></td>
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let storekeeper of storekeepers">
                     <td>{{storekeeper.name}}</td>
-                    <td>{{storekeeper.quantity}}</td>
-                    <td><a href="" ng-click="deleteStorekeeper(storekeeper.Storekeeper.Id)" ng-hide="storekeeper.Quantity > 0" disabled><i class="fa fa-user-times"></i></a></td>
+                    <td>{{storekeeper.sumKolDetail}}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" (click)="edit(storekeeper)">Изменить</button>
                         <button class="btn btn-sm btn-danger" (click)="delete(storekeeper.id)" style="margin-left:20px;">Удалить</button>
@@ -21,15 +28,35 @@
                 </tr>
             </tbody>
         </table>
-        <div *ngIf="isNew;else unset">
-            <button mat-button mat-raised-button color="primary" (click)="add(storekeeper)">Добавить</button>
-            <button mat-button mat-raised-button color="warn" (click)="cancel()" style="margin-left:20px">Отмена</button>
-        </div>
-        <ng-template #unset>
-            <div>
-                <button mat-button mat-raised-button color="primary" (click)="save(storekeeper)">Сохранить</button>
-                <button mat-button mat-raised-button color="warn" (click)="cancel()" style="margin-left:20px">Отмена</button>
-            </div>
-        </ng-template>
-    </form>
+    </div>
 </div>
+<ng-template #unset>
+    <div>
+        <h3>{{isNew ? 'Добавление кладовщика' : 'Редактирование кладовщика'}}</h3>
+        <div align="center" style="width: 100%">
+            <div align="left" style="width: 50%">
+                <form method="get" name="addEditForm">
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Кладовщики</mat-label>
+                            <select matNativeControl required [(ngModel)]="obj.id" [ngModelOptions]="{standalone: true}">
+                                <option label="-- Выберите кладовщика --"></option>
+                                <option *ngFor="let storekeeper of storekeepers" [value]="id">{{storekeeper.name}}</option>
+                            </select>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="isNew;else unset">
+                        <button mat-button mat-raised-button color="primary" (click)="createStorekeeper(Data)">Добавить</button>
+                        <button mat-button mat-raised-button color="warn" (click)="cancel()" style="margin-left:20px">Отмена</button>
+                    </div>
+                    <ng-template #unset>
+                        <div>
+                            <button mat-button mat-raised-button color="primary" (click)="save(storekeeper)">Сохранить</button>
+                            <button mat-button mat-raised-button color="warn" (click)="cancel()" style="margin-left:20px">Отмена</button>
+                        </div>
+                    </ng-template>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
