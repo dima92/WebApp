@@ -2,11 +2,12 @@
   "version": "1.0.0",
   "name": "asp.net",
   "private": true,
-  "author": "dotnetdeveloper",
+  "author": "dotnetDeveloper",
   "scripts": {
     "ng": "ng",
     "start": "echo hello && ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "postinstall": "ivy-ngcc"
   },
   "dependencies": {
     "@angular/animations": "~9.0.0",
