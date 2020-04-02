@@ -11,7 +11,7 @@ let DetailService = class DetailService {
         this.url = "/api/details";
     }
     getDetails(filter) {
-        let param = this.url + "?nomenclatureCode" + (filter.nomenclatureCode == undefined ? '' : filter.nomenclatureCode);
+        let param = this.url + "?nomenclatureCode=" + (filter.nomenclatureCode == undefined ? '' : filter.nomenclatureCode);
         return this.http.get(param);
     }
     getDetail(id) {
@@ -21,7 +21,7 @@ let DetailService = class DetailService {
         return this.http.post(this.url, detail);
     }
     updateDetail(detail) {
-        return this.http.put(this.url + '/' + detail.id, detail);
+        return this.http.put(this.url, detail);
     }
     deleteDetail(id) {
         return this.http.delete(this.url + '/' + id);

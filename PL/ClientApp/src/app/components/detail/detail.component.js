@@ -12,7 +12,7 @@ let DetailComponent = class DetailComponent {
         this.detail = new Detail();
         this.status = true;
         this.isNew = true;
-        this.Obj = {};
+        this.obj = {};
         this.filter = {};
     }
     ngOnInit() {
@@ -22,7 +22,7 @@ let DetailComponent = class DetailComponent {
         this.detailService.getDetails(this.filter).subscribe((data) => {
             this.details = data;
         }, error => {
-            for (var i = 0; i < error.length; i++) {
+            for (let i = 0; i < error.length; i++) {
                 alert(error[i]);
             }
         });
@@ -30,13 +30,21 @@ let DetailComponent = class DetailComponent {
     filterForm() {
         this.loadDetails();
     }
+    add() {
+        this.obj = {};
+        this.obj = {
+            createDate: new Date(),
+            deleteDate: new Date(),
+        };
+        this.status = false;
+    }
     edit(detail) {
         this.status = false;
         this.isNew = false;
-        this.Obj = detail;
+        this.obj = detail;
     }
-    createDetail(Data) {
-        this.detailService.createDetail(Data).subscribe((data) => {
+    createDetail(data) {
+        this.detailService.createDetail(data).subscribe((data) => {
             this.loadDetails();
             this.status = true;
         });
@@ -46,7 +54,7 @@ let DetailComponent = class DetailComponent {
             this.loadDetails();
         }),
             error => {
-                for (var i = 0; i < error.length; i++) {
+                for (let i = 0; i < error.length; i++) {
                     alert(error[i]);
                 }
             };
@@ -61,7 +69,7 @@ let DetailComponent = class DetailComponent {
             this.loadDetails();
             this.status = true;
         }, error => {
-            for (var i = 0; i < error.length; i++) {
+            for (let i = 0; i < error.length; i++) {
                 alert(error[i]);
             }
         });

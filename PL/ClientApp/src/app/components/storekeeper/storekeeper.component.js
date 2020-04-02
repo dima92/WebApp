@@ -12,7 +12,7 @@ let StorekeeperComponent = class StorekeeperComponent {
         this.storekeeper = new Storekeeper();
         this.status = true;
         this.isNew = true;
-        this.Obj = {};
+        this.obj = {};
         this.filter = {};
     }
     ngOnInit() {
@@ -22,7 +22,7 @@ let StorekeeperComponent = class StorekeeperComponent {
         this.storekeeperService.getStorekeepers(this.filter).subscribe((data) => {
             this.storekeepers = data;
         }, error => {
-            for (var i = 0; i < error.length; i++) {
+            for (let i = 0; i < error.length; i++) {
                 alert(error[i]);
             }
         });
@@ -30,13 +30,17 @@ let StorekeeperComponent = class StorekeeperComponent {
     filterForm() {
         this.loadStorekeepers();
     }
+    add() {
+        this.obj = {};
+        this.status = false;
+    }
     edit(storekeeper) {
         this.status = false;
         this.isNew = false;
-        this.Obj = storekeeper;
+        this.obj = storekeeper;
     }
-    createStorekeeper(Data) {
-        this.storekeeperService.createStorekeeper(Data).subscribe((data) => {
+    createStorekeeper(data) {
+        this.storekeeperService.createStorekeeper(data).subscribe((data) => {
             this.loadStorekeepers();
             this.status = true;
         });
@@ -46,7 +50,7 @@ let StorekeeperComponent = class StorekeeperComponent {
             this.loadStorekeepers();
         }),
             error => {
-                for (var i = 0; i < error.length; i++) {
+                for (let i = 0; i < error.length; i++) {
                     alert(error[i]);
                 }
             };
@@ -61,7 +65,7 @@ let StorekeeperComponent = class StorekeeperComponent {
             this.loadStorekeepers();
             this.status = true;
         }, error => {
-            for (var i = 0; i < error.length; i++) {
+            for (let i = 0; i < error.length; i++) {
                 alert(error[i]);
             }
         });

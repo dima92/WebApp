@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAL.Entities
 {
@@ -6,8 +7,9 @@ namespace DAL.Entities
     {
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }  
+        public string Name { get; set; }
         public int SumKolDetail { get; set; }
+        public List<Detail> Details { get; set; }
 
         public override string ToString()
         {

@@ -14,7 +14,7 @@ export class DetailComponent implements OnInit {
     details: Detail[];
     status: boolean = true;
     isNew: boolean = true;
-    Obj: {} = {};
+    obj: {} = {};
     filter: {} = {};
 
     constructor(private detailService: DetailService) {
@@ -29,7 +29,7 @@ export class DetailComponent implements OnInit {
             this.details = data;
         },
             error => {
-                for (var i = 0; i < error.length; i++) {
+                for (let i = 0; i < error.length; i++) {
                     alert(error[i]);
                 }
             });
@@ -38,16 +38,24 @@ export class DetailComponent implements OnInit {
     filterForm() {
         this.loadDetails();
     }
-
+	
+	add() {
+        this.obj = {};
+        this.obj = {
+            createDate: new Date(),
+            deleteDate: new Date(),
+        };
+        this.status = false;
+    }
+	
     edit(detail) {
         this.status = false;
         this.isNew = false;
-        this.Obj = detail;
-
+        this.obj = detail;
     }
 
-    createDetail(Data) {
-        this.detailService.createDetail(Data).subscribe((data: Detail) => {
+    createDetail(data) {
+        this.detailService.createDetail(data).subscribe((data: Detail) => {
             this.loadDetails();
             this.status = true;
         });
@@ -59,7 +67,7 @@ export class DetailComponent implements OnInit {
             this.loadDetails();
         }),
             error => {
-                for (var i = 0; i < error.length; i++) {
+                for (let i = 0; i < error.length; i++) {
                     alert(error[i]);
                 }
             };
@@ -77,7 +85,7 @@ export class DetailComponent implements OnInit {
             this.status = true;
         },
             error => {
-                for (var i = 0; i < error.length; i++) {
+                for (let i = 0; i < error.length; i++) {
                     alert(error[i]);
                 }
             });

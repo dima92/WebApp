@@ -24,7 +24,7 @@ namespace DAL.Entities
 
         [Required(ErrorMessage = "Выберите дату")]
         [WeekendDate(ErrorMessage = "Дата не может быть выходным днем")]
-        public DateTime Created { get; set; } = DateTime.Today;
+        public DateTime Created { get; set; } = DateTime.Now.Date;
 
         public DateTime? DeleteDate { get; set; }
 
@@ -41,9 +41,7 @@ namespace DAL.Entities
             if (base.IsValid(value))
             {
                 DateTime date = (DateTime)value;
-                if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
-                    return true;
-                else return false;
+                return date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday;
             }
 
             return false;

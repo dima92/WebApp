@@ -5,5 +5,6 @@
         public name?: string,
         public quantity?: number,
         public createDate?: Date,
-        public deleteDate?: Date) { }
+        public deleteDate?: Date,
+        public storekeeperId?: number) { }
 }

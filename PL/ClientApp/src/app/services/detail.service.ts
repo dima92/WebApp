@@ -11,7 +11,7 @@ export class DetailService {
     }
 
     getDetails(filter: any) {
-        let param = this.url + "?nomenclatureCode" + (filter.nomenclatureCode == undefined ? '' : filter.nomenclatureCode);
+        let param = this.url + "?nomenclatureCode=" + (filter.nomenclatureCode == undefined ? '' : filter.nomenclatureCode);
         return this.http.get(param);
     }
 
@@ -24,7 +24,7 @@ export class DetailService {
     }
 
     updateDetail(detail: Detail) {
-        return this.http.put(this.url + '/' + detail.id, detail);
+        return this.http.put(this.url, detail);
     }
 
     deleteDetail(id: number) {

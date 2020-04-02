@@ -13,7 +13,7 @@ namespace BLL.Repository
     public class DetailBll : IDetailBll
     {
         private readonly DetailContext _context = new DetailContext(new DbContextOptions<DetailContext>());
-        private DalFactory dalFactory;
+        private readonly DalFactory dalFactory;
 
         public DetailBll(DalFactory dalFactory)
         {
@@ -23,7 +23,7 @@ namespace BLL.Repository
         public List<DetailDto> GetAll()
         {
             List<DetailDto> result = new List<DetailDto>();
-            var allDetails = _context.Details.ToList();
+            var allDetails = _context.Details.Include(st => st.Storekeeper).ToList();
             foreach (var detail in allDetails)
             {
                 result.Add(new DetailDto
@@ -35,7 +35,9 @@ namespace BLL.Repository
                     NomenclatureCode = detail.NomenclatureCode,
                     Quantity = detail.Quantity,
                     SpecAccount = detail.SpecAccount,
-                    //NameStorekeeper = detail.Storekeeper.Name
+                    NameStorekeeper = detail.Storekeeper.Name,
+                    StorekeeperId = detail.StorekeeperId,
+                    Storekeeper = $"{detail.Storekeeper.Name}"
                 });
             }
 
@@ -67,14 +69,16 @@ namespace BLL.Repository
                     SpecAccount = item.SpecAccount,
                     NameStorekeeper = item.Storekeeper.Name,
                     Created = item.Created,
-                    DeleteDate = item.DeleteDate
+                    DeleteDate = item.DeleteDate,
+                    StorekeeperId = item.StorekeeperId,
+                    Storekeeper = $"{item.Storekeeper.Name}"
                 });
             }
 
             return result;
         }
 
-        public void Update( Detail detail)
+        public void Update(Detail detail)
         {
             _context.Details.Update(detail);
         }
@@ -90,7 +94,7 @@ namespace BLL.Repository
         public void Delete(int detailId)
         {
             var detail = _context.Details.FirstOrDefault(x => x.Id == detailId);
-            _context.Remove(detail);
+            _context.Remove(detail ?? throw new InvalidOperationException());
             _context.SaveChanges();
         }
     }

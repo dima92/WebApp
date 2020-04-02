@@ -12,7 +12,7 @@ export class StorekeeperComponent implements OnInit {
     storekeepers: Storekeeper[];
     status: boolean = true;
     isNew: boolean = true;
-    Obj: {} = {};
+    obj: {} = {};
     filter: {} = {};
 
     constructor(private storekeeperService: StorekeeperService) {
@@ -27,7 +27,7 @@ export class StorekeeperComponent implements OnInit {
             this.storekeepers = data;
         },
             error => {
-                for (var i = 0; i < error.length; i++) {
+                for (let i = 0; i < error.length; i++) {
                     alert(error[i]);
                 }
             });
@@ -36,16 +36,21 @@ export class StorekeeperComponent implements OnInit {
     filterForm() {
         this.loadStorekeepers();
     }
+	
+	add() {
+        this.obj = {};
+        this.status = false;
+    }
 
     edit(storekeeper) {
         this.status = false;
         this.isNew = false;
-        this.Obj = storekeeper;
+        this.obj = storekeeper;
 
     }
 
-    createStorekeeper(Data) {
-        this.storekeeperService.createStorekeeper(Data).subscribe((data: Storekeeper) => {
+    createStorekeeper(data) {
+        this.storekeeperService.createStorekeeper(data).subscribe((data: Storekeeper) => {
             this.loadStorekeepers();
             this.status = true;
         });
@@ -57,7 +62,7 @@ export class StorekeeperComponent implements OnInit {
             this.loadStorekeepers();
         }),
             error => {
-                for (var i = 0; i < error.length; i++) {
+                for (let i = 0; i < error.length; i++) {
                     alert(error[i]);
                 }
             };
@@ -75,7 +80,7 @@ export class StorekeeperComponent implements OnInit {
             this.status = true;
         },
             error => {
-                for (var i = 0; i < error.length; i++) {
+                for (let i = 0; i < error.length; i++) {
                     alert(error[i]);
                 }
             });

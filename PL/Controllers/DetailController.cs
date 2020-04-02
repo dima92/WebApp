@@ -13,7 +13,7 @@ namespace PL.Controllers
     public class DetailController : Controller
     {
         private readonly IBllFactory _bllFactory = new BllFactory();
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
         public DetailController(IBllFactory bllFactory, IMapper mapper)
         {
