@@ -14,7 +14,7 @@ export class DetailComponent implements OnInit {
     details: Detail[];
     status: boolean = true;
     isNew: boolean = true;
-    obj: {} = {};
+    detailObj: {} = {};
     filter: {} = {};
 
     constructor(private detailService: DetailService) {
@@ -40,10 +40,10 @@ export class DetailComponent implements OnInit {
     }
 	
 	add() {
-        this.obj = {};
-        this.obj = {
+        this.detailObj = {};
+        this.detailObj = {
             createDate: new Date(),
-            deleteDate: new Date(),
+            deleteDate: new Date()
         };
         this.status = false;
     }
@@ -51,7 +51,7 @@ export class DetailComponent implements OnInit {
     edit(detail) {
         this.status = false;
         this.isNew = false;
-        this.obj = detail;
+        this.detailObj = detail;
     }
 
     createDetail(data) {

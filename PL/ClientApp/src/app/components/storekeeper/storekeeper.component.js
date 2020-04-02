@@ -12,7 +12,7 @@ let StorekeeperComponent = class StorekeeperComponent {
         this.storekeeper = new Storekeeper();
         this.status = true;
         this.isNew = true;
-        this.obj = {};
+        this.storekeeperObj = {};
         this.filter = {};
     }
     ngOnInit() {
@@ -31,13 +31,13 @@ let StorekeeperComponent = class StorekeeperComponent {
         this.loadStorekeepers();
     }
     add() {
-        this.obj = {};
+        this.storekeeperObj = {};
         this.status = false;
     }
     edit(storekeeper) {
         this.status = false;
         this.isNew = false;
-        this.obj = storekeeper;
+        this.storekeeperObj = storekeeper;
     }
     createStorekeeper(data) {
         this.storekeeperService.createStorekeeper(data).subscribe((data) => {

@@ -23,7 +23,7 @@
                     <td>{{storekeeper.sumKolDetail}}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" (click)="edit(storekeeper)">Изменить</button>
-                        <button class="btn btn-sm btn-danger" (click)="delete(storekeeper.id)" style="margin-left:20px;">Удалить</button>
+                        <button class="btn btn-sm btn-danger" (click)="deleteStorekeeper(storekeeper.id)" style="margin-left:20px;">Удалить</button>
                     </td>
                 </tr>
             </tbody>
@@ -39,19 +39,19 @@
                     <div>
                         <mat-form-field>
                             <mat-label>Кладовщики</mat-label>
-                            <select matNativeControl required [(ngModel)]="obj.id" [ngModelOptions]="{standalone: true}">
+                            <select matNativeControl required [(ngModel)]="storekeeperObj.id" [ngModelOptions]="{standalone: true}">
                                 <option label="-- Выберите кладовщика --"></option>
-                                <option *ngFor="let storekeeper of storekeepers" [value]="id">{{storekeeper.name}}</option>
+                                <option *ngFor="let storekeeper of storekeepers" [value]="storekeeper.id">{{storekeeper.name}}</option>
                             </select>
                         </mat-form-field>
                     </div>
                     <div *ngIf="isNew;else unset">
-                        <button mat-button mat-raised-button color="primary" (click)="createStorekeeper(Data)">Добавить</button>
+                        <button mat-button mat-raised-button color="primary" (click)="createStorekeeper(storekeeperObj)">Добавить</button>
                         <button mat-button mat-raised-button color="warn" (click)="cancel()" style="margin-left:20px">Отмена</button>
                     </div>
                     <ng-template #unset>
                         <div>
-                            <button mat-button mat-raised-button color="primary" (click)="save(storekeeper)">Сохранить</button>
+                            <button mat-button mat-raised-button color="primary" (click)="save(storekeeperObj)">Сохранить</button>
                             <button mat-button mat-raised-button color="warn" (click)="cancel()" style="margin-left:20px">Отмена</button>
                         </div>
                     </ng-template>

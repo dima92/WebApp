@@ -12,7 +12,7 @@ export class StorekeeperComponent implements OnInit {
     storekeepers: Storekeeper[];
     status: boolean = true;
     isNew: boolean = true;
-    obj: {} = {};
+    storekeeperObj: {} = {};
     filter: {} = {};
 
     constructor(private storekeeperService: StorekeeperService) {
@@ -38,14 +38,14 @@ export class StorekeeperComponent implements OnInit {
     }
 	
 	add() {
-        this.obj = {};
+        this.storekeeperObj = {};
         this.status = false;
     }
 
     edit(storekeeper) {
         this.status = false;
         this.isNew = false;
-        this.obj = storekeeper;
+        this.storekeeperObj = storekeeper;
 
     }
 
@@ -74,7 +74,6 @@ export class StorekeeperComponent implements OnInit {
     }
 
     save(storekeeper) {
-        debugger;
         this.storekeeperService.updateStorekeeper(storekeeper).subscribe((data) => {
             this.loadStorekeepers();
             this.status = true;

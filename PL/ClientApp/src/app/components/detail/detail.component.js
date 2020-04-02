@@ -12,7 +12,7 @@ let DetailComponent = class DetailComponent {
         this.detail = new Detail();
         this.status = true;
         this.isNew = true;
-        this.obj = {};
+        this.detailObj = {};
         this.filter = {};
     }
     ngOnInit() {
@@ -31,17 +31,17 @@ let DetailComponent = class DetailComponent {
         this.loadDetails();
     }
     add() {
-        this.obj = {};
-        this.obj = {
+        this.detailObj = {};
+        this.detailObj = {
             createDate: new Date(),
-            deleteDate: new Date(),
+            deleteDate: new Date()
         };
         this.status = false;
     }
     edit(detail) {
         this.status = false;
         this.isNew = false;
-        this.obj = detail;
+        this.detailObj = detail;
     }
     createDetail(data) {
         this.detailService.createDetail(data).subscribe((data) => {
