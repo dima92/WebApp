@@ -28,7 +28,7 @@ let DetailService = class DetailService {
     }
 };
 DetailService = __decorate([
-    Injectable()
+    Injectable({ providedIn: "root" })
 ], DetailService);
 export { DetailService };
 //# sourceMappingURL=detail.service.js.map

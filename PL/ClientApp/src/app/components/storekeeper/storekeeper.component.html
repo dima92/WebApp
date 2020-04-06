@@ -37,12 +37,8 @@
             <div align="left" style="width: 50%">
                 <form method="get" name="addEditForm">
                     <div>
-                        <mat-form-field>
-                            <mat-label>Кладовщики</mat-label>
-                            <select matNativeControl required [(ngModel)]="storekeeperObj.id" [ngModelOptions]="{standalone: true}">
-                                <option label="-- Выберите кладовщика --"></option>
-                                <option *ngFor="let storekeeper of storekeepers" [value]="storekeeper.id">{{storekeeper.name}}</option>
-                            </select>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Введите ФИО" [(ngModel)]="storekeeperObj.name" [ngModelOptions]="{standalone: true}" />
                         </mat-form-field>
                     </div>
                     <div *ngIf="isNew;else unset">

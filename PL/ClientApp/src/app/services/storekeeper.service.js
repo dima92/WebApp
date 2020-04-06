@@ -28,7 +28,7 @@ let StorekeeperService = class StorekeeperService {
     }
 };
 StorekeeperService = __decorate([
-    Injectable()
+    Injectable({ providedIn: "root" })
 ], StorekeeperService);
 export { StorekeeperService };
 //# sourceMappingURL=storekeeper.service.js.map

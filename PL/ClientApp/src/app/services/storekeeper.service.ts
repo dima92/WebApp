@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Storekeeper } from '../models/storekeeper';
 
-@Injectable()
+@Injectable({providedIn: "root"})
 export class StorekeeperService {
 
     private url = "/api/storekeepers";

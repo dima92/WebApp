@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Detail } from '../models/detail';
 
-@Injectable()
+@Injectable({providedIn: "root"})
 export class DetailService {
 
     private url = "/api/details";
@@ -19,7 +19,7 @@ export class DetailService {
         return this.http.get(this.url + '/' + id);
     }
 
-    createDetail(detail: Detail) {
+    createDetail(detail: any) {
         return this.http.post(this.url, detail);
     }
 
