@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Storekeeper } from '../models/storekeeper';
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class StorekeeperService {
 
     private url = "/api/storekeepers";
@@ -24,7 +24,7 @@ export class StorekeeperService {
     }
 
     updateStorekeeper(storekeeper: Storekeeper) {
-        return this.http.put(this.url, storekeeper);
+        return this.http.put(this.url,storekeeper);
     }
 
     deleteStorekeeper(id: number) {

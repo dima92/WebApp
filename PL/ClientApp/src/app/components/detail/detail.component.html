@@ -10,7 +10,6 @@
                     <td>Количество</td>
                     <td>Особоучитываемая</td>
                     <td>Дата создания</td>
-                    <td>Дата удаления</td>
                 </tr>
                 <tr>
                     <td>
@@ -25,9 +24,8 @@
                     <td>{{detail.nomenclatureCode}}</td>
                     <td>{{detail.name}}</td>
                     <td>{{detail.quantity}}</td>
-                    <td>{{detail.specAccount ? 'выбрано' : 'свободно'}}</td>
-                    <td>{{detail.createDate | date:'dd.MM.yyyy'}}</td>
-                    <td>{{detail.deleteDate | date:'dd.MM.yyyy'}}</td>
+                    <td><mat-checkbox [(ngModel)]="detail.specAccount" disabled="disabled"></mat-checkbox></td>
+                    <td>{{detail.created | date:'dd.MM.yyyy'}}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" (click)="edit(detail)">Изменить</button>
                         <button class="btn btn-sm btn-danger" (click)="deleteDetail(detail.id)" style="margin-left:20px;">Удалить</button>
@@ -48,25 +46,14 @@
                     </div>
                     <div>
                         <mat-form-field>
-                            <input matInput [matDatepicker]="picker" placeholder="Дата создания" required [(ngModel)]="detailObj.createDate" [ngModelOptions]="{standalone: true}">
+                            <input matInput [matDatepicker]="picker" placeholder="Дата создания" required [(ngModel)]="detailObj.created" [ngModelOptions]="{standalone: true}">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                     </div>
                     <div>
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="picker2" placeholder="Дата удаления" [(ngModel)]="detailObj.deleteDate" [ngModelOptions]="{standalone: true}">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field>
-                            <mat-label>Детали</mat-label>
-                            <select matNativeControl required [(ngModel)]="detailObj.detailId" [ngModelOptions]="{standalone: true}">
-                                <option label="-- Выберите деталь --"></option>
-                                <option *ngFor="let detail of details" [value]="detail.id">{{detail.name}}</option>
-                            </select>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Введите название детали" [(ngModel)]="detailObj.name" [ngModelOptions]="{standalone: true}" />
                         </mat-form-field>
 
                     </div>
@@ -82,12 +69,12 @@
                     </div>
                     <div>
                         <mat-form-field class="example-full-width">
-                            <input matInput min="0" max="1000" value="0" size="30" placeholder="Кол-во" [(ngModel)]="detailObj.quantity" [ngModelOptions]="{standalone: true}" />
+                            <input type="number" matInput min="0" max="1000" value="0" size="30" placeholder="Кол-во" [(ngModel)]="detailObj.quantity" [ngModelOptions]="{standalone: true}" />
                         </mat-form-field>
                     </div>
                     <div>
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Номенклатурный код" required pattern="^[A-Z]{3}-\d{6}$" [(ngModel)]="detailObj.nomenclatureCode" [ngModelOptions]="{standalone: true}" />
+                            <input matInput placeholder="Номенклатурный код" required pattern="^\d{3}-\d{6}$" [(ngModel)]="detailObj.nomenclatureCode" [ngModelOptions]="{standalone: true}" />
                         </mat-form-field>
                     </div>
                     <div *ngIf="isNew;else unset">

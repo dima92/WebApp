@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Detail } from '../models/detail';
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class DetailService {
 
     private url = "/api/details";

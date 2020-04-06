@@ -46,19 +46,13 @@ namespace BLL.Repository
 
         public List<StorekeeperDto> Add(StorekeeperDto storekeeper)
         {
-            List<StorekeeperDto> result = new List<StorekeeperDto>();
-            var stock = _context.Storekeepers.ToList();
-            foreach (var item in stock)
-            {
-                result.Add(new StorekeeperDto
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    SumKolDetail = item.SumKolDetail
-                });
-            }
+            _dalFactory.StorekeeperDal.Add(new Storekeeper
 
-            return result;
+            {
+                Name = storekeeper.Name
+            });
+
+            return null;
         }
 
         public void Delete(int storekeeperId)

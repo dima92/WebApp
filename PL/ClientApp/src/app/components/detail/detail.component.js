@@ -6,10 +6,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { Component } from "@angular/core";
 import { Detail } from "../../models/detail";
+import { Storekeeper } from "../../models/storekeeper";
 let DetailComponent = class DetailComponent {
-    constructor(detailService) {
+    constructor(detailService, storekeeperService) {
         this.detailService = detailService;
+        this.storekeeperService = storekeeperService;
         this.detail = new Detail();
+        this.storekeeper = new Storekeeper();
         this.status = true;
         this.isNew = true;
         this.detailObj = {};
@@ -17,10 +20,20 @@ let DetailComponent = class DetailComponent {
     }
     ngOnInit() {
         this.loadDetails();
+        this.loadStorekeepers();
     }
     loadDetails() {
         this.detailService.getDetails(this.filter).subscribe((data) => {
             this.details = data;
+        }, error => {
+            for (let i = 0; i < error.length; i++) {
+                alert(error[i]);
+            }
+        });
+    }
+    loadStorekeepers() {
+        this.storekeeperService.getStorekeepers(this.filter).subscribe((data) => {
+            this.storekeepers = data;
         }, error => {
             for (let i = 0; i < error.length; i++) {
                 alert(error[i]);

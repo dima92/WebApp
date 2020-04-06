@@ -13,16 +13,16 @@ namespace BLL.Repository
     public class DetailBll : IDetailBll
     {
         private readonly DetailContext _context = new DetailContext(new DbContextOptions<DetailContext>());
-        private readonly DalFactory dalFactory;
+        private readonly DalFactory _dalFactory;
 
         public DetailBll(DalFactory dalFactory)
         {
-            this.dalFactory = dalFactory;
+            _dalFactory = dalFactory;
         }
 
         public List<DetailDto> GetAll()
         {
-            List<DetailDto> result = new List<DetailDto>();
+            var result = new List<DetailDto>();
             var allDetails = _context.Details.Include(st => st.Storekeeper).ToList();
             foreach (var detail in allDetails)
             {
@@ -37,7 +37,7 @@ namespace BLL.Repository
                     SpecAccount = detail.SpecAccount,
                     NameStorekeeper = detail.Storekeeper.Name,
                     StorekeeperId = detail.StorekeeperId,
-                    Storekeeper = $"{detail.Storekeeper.Name}"
+                    Storekeeper = detail.Storekeeper.Name
                 });
             }
 
@@ -46,7 +46,7 @@ namespace BLL.Repository
 
         public Detail GetById(int detailId)
         {
-            return dalFactory.DetailDal.GetById(detailId);
+            return _dalFactory.DetailDal.GetById(detailId);
         }
 
         public IQueryable<Detail> GetByStorekeeperId(int storekeeperId)
@@ -56,26 +56,19 @@ namespace BLL.Repository
 
         public List<DetailDto> Add(DetailDto detail)
         {
-            List<DetailDto> result = new List<DetailDto>();
-            var det = _context.Details.ToList();
-            foreach (var item in det)
+            _dalFactory.DetailDal.Add(new Detail
             {
-                result.Add(new DetailDto
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Quantity = item.Quantity,
-                    NomenclatureCode = item.NomenclatureCode,
-                    SpecAccount = item.SpecAccount,
-                    NameStorekeeper = item.Storekeeper.Name,
-                    Created = item.Created,
-                    DeleteDate = item.DeleteDate,
-                    StorekeeperId = item.StorekeeperId,
-                    Storekeeper = $"{item.Storekeeper.Name}"
-                });
-            }
-
-            return result;
+                Id = detail.Id,
+                Name = detail.Name,
+                Quantity = detail.Quantity,
+                NomenclatureCode = detail.NomenclatureCode,
+                SpecAccount = detail.SpecAccount,
+                Created = detail.Created,
+                DeleteDate = detail.DeleteDate,
+                StorekeeperId = detail.StorekeeperId
+            });
+            
+            return null;
         }
 
         public void Update(Detail detail)

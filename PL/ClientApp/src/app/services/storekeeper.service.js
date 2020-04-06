@@ -21,14 +21,14 @@ let StorekeeperService = class StorekeeperService {
         return this.http.post(this.url, storekeeper);
     }
     updateStorekeeper(storekeeper) {
-        return this.http.put(this.url, storekeeper);
+        return this.http.put(this.url + storekeeper.id, storekeeper);
     }
     deleteStorekeeper(id) {
         return this.http.delete(this.url + '/' + id);
     }
 };
 StorekeeperService = __decorate([
-    Injectable()
+    Injectable({ providedIn: "root" })
 ], StorekeeperService);
 export { StorekeeperService };
 //# sourceMappingURL=storekeeper.service.js.map

@@ -60,7 +60,6 @@ let StorekeeperComponent = class StorekeeperComponent {
         this.isNew = true;
     }
     save(storekeeper) {
-        debugger;
         this.storekeeperService.updateStorekeeper(storekeeper).subscribe((data) => {
             this.loadStorekeepers();
             this.status = true;

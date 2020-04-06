@@ -21,14 +21,14 @@ let DetailService = class DetailService {
         return this.http.post(this.url, detail);
     }
     updateDetail(detail) {
-        return this.http.put(this.url, detail);
+        return this.http.put(this.url + detail.id, detail);
     }
     deleteDetail(id) {
         return this.http.delete(this.url + '/' + id);
     }
 };
 DetailService = __decorate([
-    Injectable()
+    Injectable({ providedIn: "root" })
 ], DetailService);
 export { DetailService };
 //# sourceMappingURL=detail.service.js.map

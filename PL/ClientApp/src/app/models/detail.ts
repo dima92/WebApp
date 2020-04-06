@@ -4,7 +4,7 @@
         public nomenclatureCode?: string,
         public name?: string,
         public quantity?: number,
-        public createDate?: Date,
+        public created?: Date,
         public deleteDate?: Date,
         public storekeeperId?: number) { }
 }
