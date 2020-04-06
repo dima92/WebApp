@@ -57,6 +57,7 @@ let DetailComponent = class DetailComponent {
         this.detailObj = detail;
     }
     createDetail(data) {
+        debugger;
         this.detailService.createDetail(data).subscribe((data) => {
             this.loadDetails();
             this.status = true;
