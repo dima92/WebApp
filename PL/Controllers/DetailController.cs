@@ -4,6 +4,7 @@ using BLL.ModelDto;
 using BLL.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 
 namespace PL.Controllers
@@ -12,7 +13,7 @@ namespace PL.Controllers
     [Route("api/details")]
     public class DetailController : Controller
     {
-        private readonly IBllFactory _bllFactory = new BllFactory();
+        private readonly IBllFactory _bllFactory;
         private readonly IMapper _mapper;
 
         public DetailController(IBllFactory bllFactory, IMapper mapper)
@@ -50,6 +51,22 @@ namespace PL.Controllers
             {
                 var model = _mapper.Map<DetailDto>(detail);
                 _bllFactory.DetailBll.Add(model);
+                return Ok(model);
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError("error", ex.Message);
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult Update(List<DetailDto> data)
+        {
+            try
+            {
+                var model = _mapper.Map<DetailDto>(data);
+                _bllFactory.DetailBll.Update(data);
                 return Ok(model);
             }
             catch (ValidationException ex)

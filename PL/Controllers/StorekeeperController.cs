@@ -4,6 +4,7 @@ using BLL.Interfaces;
 using BLL.ModelDto;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace PL.Controllers
 {
@@ -49,6 +50,22 @@ namespace PL.Controllers
             {
                 var model = _mapper.Map<StorekeeperDto>(storekeeper);
                 _bllFactory.StorekeeperBll.Add(storekeeper);
+                return Ok(model);
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError("error", ex.Message);
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult Update(List<StorekeeperDto> data)
+        {
+            try
+            {
+                var model = _mapper.Map<StorekeeperDto>(data);
+                _bllFactory.StorekeeperBll.Update(data);
                 return Ok(model);
             }
             catch (ValidationException ex)

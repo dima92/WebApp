@@ -7,6 +7,7 @@ using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using BLL.Infrastructure;
 
 namespace BLL.Repository
@@ -15,10 +16,12 @@ namespace BLL.Repository
     {
         private readonly DetailContext _context = new DetailContext(new DbContextOptions<DetailContext>());
         private readonly DalFactory _dalFactory;
+        private readonly IMapper _mapper;
 
-        public StorekeeperBll(DalFactory dalFactory)
+        public StorekeeperBll(DalFactory dalFactory, IMapper mapper)
         {
             _dalFactory = dalFactory;
+            _mapper = mapper;
         }
 
         public List<StorekeeperDto> GetAll()
@@ -53,6 +56,15 @@ namespace BLL.Repository
             });
 
             return null;
+        }
+
+        public void Update(List<StorekeeperDto> data)
+        {
+            foreach (StorekeeperDto storekeeper in data)
+            {
+                Storekeeper result = _mapper.Map<Storekeeper>(storekeeper);
+                _dalFactory.StorekeeperDal.UpdateVoid(result, result.Id);
+            }
         }
 
         public void Delete(int storekeeperId)

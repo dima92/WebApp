@@ -9,6 +9,7 @@ namespace BLL.Interfaces
         List<StorekeeperDto> GetAll();
         Storekeeper Get(int id);
         List<StorekeeperDto> Add(StorekeeperDto storekeeper);
+        void Update(List<StorekeeperDto> storekeeper);
         void Delete(int storekeeperId);
     }
 }

@@ -45,7 +45,7 @@ let DetailComponent = class DetailComponent {
     }
     add() {
         this.detailObj = {
-            create: new Date(),
+            created: new Date(),
             deleteDate: new Date()
         };
         this.status = false;

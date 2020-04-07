@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 
 namespace BLL.Repository
 {
@@ -14,10 +15,12 @@ namespace BLL.Repository
     {
         private readonly DetailContext _context = new DetailContext(new DbContextOptions<DetailContext>());
         private readonly DalFactory _dalFactory;
+        private readonly IMapper _mapper;
 
-        public DetailBll(DalFactory dalFactory)
+        public DetailBll(DalFactory dalFactory, IMapper mapper)
         {
             _dalFactory = dalFactory;
+            _mapper = mapper;
         }
 
         public List<DetailDto> GetAll()
@@ -67,13 +70,19 @@ namespace BLL.Repository
                 DeleteDate = detail.DeleteDate,
                 StorekeeperId = detail.StorekeeperId
             });
-            
+
             return null;
         }
 
-        public void Update(Detail detail)
+        public void Update(List<DetailDto> data)
         {
-            _context.Details.Update(detail);
+            foreach (DetailDto detail in data)
+            {
+                Detail result = _mapper.Map<Detail>(detail);
+                result.Created = DateTime.Now;
+                result.DeleteDate = null;
+                _dalFactory.DetailDal.UpdateVoid(result, result.Id);
+            }
         }
 
         public void MarkDeleted(int detailId)
