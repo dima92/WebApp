@@ -24,6 +24,7 @@ let DetailService = class DetailService {
         return this.http.put(this.url, detail);
     }
     deleteDetail(id) {
+        debugger;
         return this.http.delete(this.url + '/' + id);
     }
 };

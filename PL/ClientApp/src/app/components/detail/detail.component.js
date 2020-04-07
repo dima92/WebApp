@@ -56,6 +56,7 @@ let DetailComponent = class DetailComponent {
         this.detailObj = detail;
     }
     createDetail(detail) {
+        detail.storekeeperId = +detail.storekeeperId;
         this.detailService.createDetail(detail).subscribe((data) => {
             this.loadDetails();
             this.status = true;

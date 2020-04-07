@@ -24,7 +24,7 @@ namespace DAL.Entities
 
         [Required(ErrorMessage = "Выберите дату")]
         [WeekendDate(ErrorMessage = "Дата не может быть выходным днем")]
-        public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime Created { get; set; }
 
         public DateTime? DeleteDate { get; set; }
 

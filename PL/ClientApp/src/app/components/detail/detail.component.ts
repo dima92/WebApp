@@ -70,6 +70,7 @@ export class DetailComponent implements OnInit {
     }
 
     createDetail(detail) {
+        detail.storekeeperId = + detail.storekeeperId;
         this.detailService.createDetail(detail).subscribe((data: Detail) => {
             this.loadDetails();
             this.status = true;

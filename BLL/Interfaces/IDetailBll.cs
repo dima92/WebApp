@@ -10,8 +10,8 @@ namespace BLL.Interfaces
         List<DetailDto> GetAll();
         Detail GetById(int detailId);
         IQueryable<Detail> GetByStorekeeperId(int storekeeperId);
-        List<DetailDto> Add(DetailDto detail);
-        void Update(List<DetailDto> detail);
+        void Add(DetailDto detail);
+        void Update(DetailDto detail);
         void MarkDeleted(int detailId);
         void Delete(int detailId);
     }

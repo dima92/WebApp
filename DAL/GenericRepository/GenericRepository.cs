@@ -67,7 +67,7 @@ namespace DAL.GenericRepository
         }
 
 
-        public virtual void UpdateVoid(T entity, decimal key)
+        public virtual void UpdateVoid(T entity, int key)
         {
             T existing = _dataContext.Set<T>().Find(key);
             if (existing != null)

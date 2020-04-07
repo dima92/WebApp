@@ -49,9 +49,8 @@ namespace PL.Controllers
         {
             try
             {
-                var model = _mapper.Map<DetailDto>(detail);
-                _bllFactory.DetailBll.Add(model);
-                return Ok(model);
+                _bllFactory.DetailBll.Add(detail);
+                return Ok();
             }
             catch (ValidationException ex)
             {
@@ -61,13 +60,12 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(List<DetailDto> data)
+        public IActionResult Update(DetailDto data)
         {
             try
             {
-                var model = _mapper.Map<DetailDto>(data);
                 _bllFactory.DetailBll.Update(data);
-                return Ok(model);
+                return Ok();
             }
             catch (ValidationException ex)
             {
@@ -77,9 +75,9 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int detailId)
+        public IActionResult Delete(int id)
         {
-            _bllFactory.DetailBll.Delete(detailId);
+            _bllFactory.DetailBll.Delete(id);
             return Ok();
         }
     }

@@ -19,18 +19,16 @@ namespace BLL.Mapper
                 .ForMember(d => d.Created, opt => opt.MapFrom(src => src.Created.ToString("dd/MM/yyyy")))
                 .ForMember(d => d.DeleteDate, opt => opt.MapFrom(src => src.DeleteDate.ToString()))
                 .ForMember(d => d.StorekeeperId, opt => opt.MapFrom(src => src.StorekeeperId));
-                 
-            CreateMap<DetailDto, Detail>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(d => d.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(d => d.NomenclatureCode, opt => opt.MapFrom(src => src.NomenclatureCode))
-                .ForMember(d => d.Quantity, opt => opt.MapFrom(src => src.Quantity))
-                .ForMember(d => d.SpecAccount, opt => opt.MapFrom(src => src.SpecAccount))
-                .ForPath(d => d.Storekeeper.Name, opt => opt.MapFrom(src => src.NameStorekeeper))
-                .ForMember(d => d.Created, opt => opt.MapFrom(src => Convert.ToDateTime(src.Created)))
-                .ForMember(d => d.DeleteDate, opt => opt.MapFrom(src => Convert.ToDateTime(src.DeleteDate)))
-                .ForMember(d => d.StorekeeperId, opt => opt.MapFrom(src => src.StorekeeperId));
 
+            CreateMap<DetailDto, Detail>()
+                .ForMember(d => d.Created, opt => opt.MapFrom(src => DateTime.Now))
+                .ForMember(d => d.Storekeeper, opt => opt.MapFrom(src => AddNull()));
+
+        }
+
+        private static object AddNull()
+        {
+            return null;
         }
     }
 }

@@ -28,6 +28,7 @@ export class DetailService {
     }
 
     deleteDetail(id: number) {
+        debugger;
         return this.http.delete(this.url + '/' + id);
     }
 }

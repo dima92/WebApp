@@ -57,32 +57,18 @@ namespace BLL.Repository
             return _context.Details.Where(x => x.Id == storekeeperId);
         }
 
-        public List<DetailDto> Add(DetailDto detail)
+        public void Add(DetailDto detail)
         {
-            _dalFactory.DetailDal.Add(new Detail
-            {
-                Id = detail.Id,
-                Name = detail.Name,
-                Quantity = detail.Quantity,
-                NomenclatureCode = detail.NomenclatureCode,
-                SpecAccount = detail.SpecAccount,
-                Created = detail.Created,
-                DeleteDate = detail.DeleteDate,
-                StorekeeperId = detail.StorekeeperId
-            });
-
-            return null;
+            Detail result = _mapper.Map<DetailDto, Detail>(detail);
+            _dalFactory.DetailDal.Add(result);
         }
 
-        public void Update(List<DetailDto> data)
+        public void Update(DetailDto data)
         {
-            foreach (DetailDto detail in data)
-            {
-                Detail result = _mapper.Map<Detail>(detail);
-                result.Created = DateTime.Now;
+          
+                Detail result = _mapper.Map<DetailDto, Detail>(data);
                 result.DeleteDate = null;
                 _dalFactory.DetailDal.UpdateVoid(result, result.Id);
-            }
         }
 
         public void MarkDeleted(int detailId)
