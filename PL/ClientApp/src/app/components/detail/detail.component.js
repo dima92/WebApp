@@ -44,9 +44,8 @@ let DetailComponent = class DetailComponent {
         this.loadDetails();
     }
     add() {
-        this.detailObj = {};
         this.detailObj = {
-            createDate: new Date(),
+            create: new Date(),
             deleteDate: new Date()
         };
         this.status = false;
@@ -56,9 +55,8 @@ let DetailComponent = class DetailComponent {
         this.isNew = false;
         this.detailObj = detail;
     }
-    createDetail(data) {
-        debugger;
-        this.detailService.createDetail(data).subscribe((data) => {
+    createDetail(detail) {
+        this.detailService.createDetail(detail).subscribe((data) => {
             this.loadDetails();
             this.status = true;
         });

@@ -47,9 +47,9 @@ namespace PL.Controllers
         {
             try
             {
-             //   var model = _mapper.Map<StorekeeperDto>(storekeeper);
+                var model = _mapper.Map<StorekeeperDto>(storekeeper);
                 _bllFactory.StorekeeperBll.Add(storekeeper);
-                return Ok(storekeeper);
+                return Ok(model);
             }
             catch (ValidationException ex)
             {

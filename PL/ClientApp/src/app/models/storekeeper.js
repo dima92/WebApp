@@ -1,8 +1,8 @@
 export class Storekeeper {
-    constructor(id, name, Quantity, sumKolDetail) {
+    constructor(id, name, quantity, sumKolDetail) {
         this.id = id;
         this.name = name;
-        this.Quantity = Quantity;
+        this.quantity = quantity;
         this.sumKolDetail = sumKolDetail;
     }
 }

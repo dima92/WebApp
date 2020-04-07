@@ -21,7 +21,7 @@ let StorekeeperService = class StorekeeperService {
         return this.http.post(this.url, storekeeper);
     }
     updateStorekeeper(storekeeper) {
-        return this.http.put(this.url + storekeeper.id, storekeeper);
+        return this.http.put(this.url, storekeeper);
     }
     deleteStorekeeper(id) {
         return this.http.delete(this.url + '/' + id);

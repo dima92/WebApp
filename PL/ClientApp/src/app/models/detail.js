@@ -1,10 +1,10 @@
 export class Detail {
-    constructor(id, nomenclatureCode, name, quantity, createDate, deleteDate, storekeeperId) {
+    constructor(id, nomenclatureCode, name, quantity, created, deleteDate, storekeeperId) {
         this.id = id;
         this.nomenclatureCode = nomenclatureCode;
         this.name = name;
         this.quantity = quantity;
-        this.createDate = createDate;
+        this.created = created;
         this.deleteDate = deleteDate;
         this.storekeeperId = storekeeperId;
     }
