@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using BLL.Infrastructure;
+﻿using BLL.Infrastructure;
 using BLL.Interfaces;
 using BLL.ModelDto;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 
 namespace PL.Controllers
 {
@@ -13,11 +11,9 @@ namespace PL.Controllers
     public class StorekeeperController : Controller
     {
         private readonly IBllFactory _bllFactory;
-        private readonly IMapper _mapper;
-        public StorekeeperController(IBllFactory bllFactory, IMapper mapper)
+        public StorekeeperController(IBllFactory bllFactory)
         {
             _bllFactory = bllFactory ?? throw new ArgumentNullException(nameof(bllFactory));
-            _mapper = mapper;
         }
 
         [HttpGet]
@@ -48,9 +44,8 @@ namespace PL.Controllers
         {
             try
             {
-                var model = _mapper.Map<StorekeeperDto>(storekeeper);
                 _bllFactory.StorekeeperBll.Add(storekeeper);
-                return Ok(model);
+                return Ok();
             }
             catch (ValidationException ex)
             {
@@ -60,13 +55,12 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(List<StorekeeperDto> data)
+        public IActionResult Update(StorekeeperDto data)
         {
             try
             {
-                var model = _mapper.Map<StorekeeperDto>(data);
                 _bllFactory.StorekeeperBll.Update(data);
-                return Ok(model);
+                return Ok();
             }
             catch (ValidationException ex)
             {
@@ -76,11 +70,11 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int storekeeperId)
+        public IActionResult Delete(int id)
         {
             try
             {
-                _bllFactory.StorekeeperBll.Delete(storekeeperId);
+                _bllFactory.StorekeeperBll.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

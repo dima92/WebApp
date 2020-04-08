@@ -47,24 +47,16 @@ namespace BLL.Repository
             return _dalFactory.StorekeeperDal.GetById(id);
         }
 
-        public List<StorekeeperDto> Add(StorekeeperDto storekeeper)
+        public void Add(StorekeeperDto storekeeper)
         {
-            _dalFactory.StorekeeperDal.Add(new Storekeeper
-
-            {
-                Name = storekeeper.Name
-            });
-
-            return null;
+            Storekeeper result = _mapper.Map<StorekeeperDto, Storekeeper>(storekeeper);
+            _dalFactory.StorekeeperDal.Add(result);
         }
 
-        public void Update(List<StorekeeperDto> data)
+        public void Update(StorekeeperDto data)
         {
-            foreach (StorekeeperDto storekeeper in data)
-            {
-                Storekeeper result = _mapper.Map<Storekeeper>(storekeeper);
-                _dalFactory.StorekeeperDal.UpdateVoid(result, result.Id);
-            }
+            Storekeeper result = _mapper.Map<StorekeeperDto, Storekeeper>(data);
+            _dalFactory.StorekeeperDal.UpdateVoid(result, result.Id);
         }
 
         public void Delete(int storekeeperId)
@@ -75,11 +67,8 @@ namespace BLL.Repository
             {
                 throw new ValidationException("Нельзя удалить кладовщика, за которым числятся детали");
             }
-            else
-            {
-                _context.Storekeepers.Remove(storekeeperDetail ?? throw new InvalidOperationException());
-                _context.SaveChanges();
-            }
+            _context.Storekeepers.Remove(storekeeperDetail ?? throw new InvalidOperationException());
+            _context.SaveChanges();
         }
     }
 }

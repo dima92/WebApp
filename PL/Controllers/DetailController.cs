@@ -1,11 +1,8 @@
 ﻿using BLL.Infrastructure;
 using BLL.Interfaces;
 using BLL.ModelDto;
-using BLL.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using AutoMapper;
 
 namespace PL.Controllers
 {
@@ -14,12 +11,10 @@ namespace PL.Controllers
     public class DetailController : Controller
     {
         private readonly IBllFactory _bllFactory;
-        private readonly IMapper _mapper;
 
-        public DetailController(IBllFactory bllFactory, IMapper mapper)
+        public DetailController(IBllFactory bllFactory)
         {
             _bllFactory = bllFactory ?? throw new ArgumentNullException(nameof(bllFactory));
-            _mapper = mapper;
         }
 
         [HttpGet]
@@ -77,8 +72,16 @@ namespace PL.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _bllFactory.DetailBll.Delete(id);
-            return Ok();
+            try
+            {
+                _bllFactory.DetailBll.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("warn", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
     }
 }

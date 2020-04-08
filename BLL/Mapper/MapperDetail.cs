@@ -23,7 +23,6 @@ namespace BLL.Mapper
             CreateMap<DetailDto, Detail>()
                 .ForMember(d => d.Created, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(d => d.Storekeeper, opt => opt.MapFrom(src => AddNull()));
-
         }
 
         private static object AddNull()
