@@ -27,14 +27,14 @@ namespace BLL.Repository
         public List<StorekeeperDto> GetAll()
         {
             List<StorekeeperDto> result = new List<StorekeeperDto>();
-            var allStorekeepers = _context.Storekeepers.AsQueryable();
+            var allStorekeepers = _context.Storekeepers.Include(det => det.Details).ToList();
             foreach (var storekeeper in allStorekeepers)
             {
                 result.Add(new StorekeeperDto
                 {
                     Id = storekeeper.Id,
                     Name = storekeeper.Name,
-                    SumKolDetail = storekeeper.SumKolDetail
+                    SumKolDetail = storekeeper.Details.Sum(x => x.Quantity)
                 });
             }
 
