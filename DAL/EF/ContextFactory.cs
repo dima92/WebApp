@@ -8,7 +8,7 @@ namespace DAL.EF
         public DetailContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<DetailContext>();
-            optionsBuilder.UseSqlServer("Data Source=detaildb.db");
+            optionsBuilder.UseSqlServer("Data Source=helloappdb.db");
             return new DetailContext(optionsBuilder.Options);
         }
     }

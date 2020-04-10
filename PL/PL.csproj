@@ -1,45 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+ 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <SpaRoot>ClientApp\</SpaRoot>
   </PropertyGroup>
-
+ 
   <ItemGroup>
-    <Content Remove="appsettings.json" />
+    <Content Remove="$(SpaRoot)**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
-
+ 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\app.component.ts" />
-    <None Remove="ClientApp\src\app\app.module.ts" />
-    <None Remove="ClientApp\src\app\components\detail.component.ts" />
-    <None Remove="ClientApp\src\app\components\nav-menu.component.ts" />
-    <None Remove="ClientApp\src\app\components\storekeeper.component.ts" />
-    <None Remove="ClientApp\src\app\models\detail.ts" />
-    <None Remove="ClientApp\src\app\models\storekeeper.ts" />
-    <None Remove="ClientApp\src\app\services\detail.service.ts" />
-    <None Remove="ClientApp\src\app\services\storekeeper.service.ts" />
-    <None Remove="ClientApp\src\main.ts" />
-    <None Remove="ClientApp\src\polyfills.ts" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
-  </ItemGroup>
-
+ 
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj" />
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties clientapp_4package_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
-
+ 
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+ 
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
 </Project>
